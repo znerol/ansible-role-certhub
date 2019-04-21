@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Git/ACL present
+      loop:
+        - acl
+        - git
+      package:
+        name: "{{ item }}"
+        state: present
+
+    - import_role:
+        name: ansible-role-certhub

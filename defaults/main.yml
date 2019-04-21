@@ -1,0 +1,43 @@
+---
+certhub_certhub_version: v1.0.0-beta5
+certhub_certhub_checksum: >
+  sha256:a3a148759f7b8d4474a4a5bf3e9f33edd94322d9dcfc9d0c0dad880f7a14fca9
+certhub_certhub_prefix: /usr/local
+
+certhub_gitgau_version: v1.1.0
+certhub_gitgau_checksum: >
+  sha256:a5f02e4989706948f6cc903883e39a25c8e6d6efd4a72dfc34e3e34013c2082a
+certhub_gitgau_prefix: /usr/local
+
+certhub_user_group: certhub
+certhub_user_name: certhub
+certhub_user_home: /var/lib/certhub
+certhub_user_shell: /usr/bin/git-shell
+certhub_user_authorized_key: false
+
+certhub_config_dir_path: /etc/certhub
+certhub_config_dir_owner: root
+certhub_config_dir_group: root
+certhub_config_dir_mode: 0755
+
+certhub_status_dir_path: "{{ certhub_user_home }}/status"
+certhub_status_dir_owner: "{{ certhub_user_name }}"
+certhub_status_dir_group: "{{ certhub_user_group }}"
+certhub_status_dir_mode: 0755
+
+certhub_certs_dir_path: "{{ certhub_user_home }}/certs"
+certhub_certs_dir_owner: "{{ certhub_user_name }}"
+certhub_certs_dir_group: "{{ certhub_user_group }}"
+certhub_certs_dir_mode: 0755
+
+certhub_repo_path: "{{ certhub_user_home}}/certs.git"
+
+certhub_scratch_dir_path: "{{ certhub_user_home }}/scratch"
+certhub_scratch_dir_owner: "{{ certhub_user_name }}"
+certhub_scratch_dir_group: "{{ certhub_user_group }}"
+certhub_scratch_dir_mode: 0755
+
+certhub_certhub_url: "https://github.com/certhub/certhub/releases/download/{{ certhub_certhub_version }}/certhub-dist.tar.gz"
+certhub_certhub_archive_path: "{{ certhub_scratch_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
+certhub_gitgau_url: "https://github.com/znerol/git-gau/releases/download/{{ certhub_gitgau_version }}/git-gau-dist.tar.gz"
+certhub_gitgau_archive_path: "{{ certhub_scratch_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
