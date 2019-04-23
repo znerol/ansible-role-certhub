@@ -13,7 +13,6 @@ certhub_user_group: certhub
 certhub_user_name: certhub
 certhub_user_home: /var/lib/certhub
 certhub_user_shell: /usr/bin/git-shell
-certhub_user_authorized_key: false
 
 certhub_config_dir_path: /etc/certhub
 certhub_config_dir_owner: root
@@ -32,12 +31,12 @@ certhub_certs_dir_mode: 0755
 
 certhub_repo_path: "{{ certhub_user_home}}/certs.git"
 
-certhub_scratch_dir_path: "{{ certhub_user_home }}/scratch"
-certhub_scratch_dir_owner: "{{ certhub_user_name }}"
-certhub_scratch_dir_group: "{{ certhub_user_group }}"
-certhub_scratch_dir_mode: 0755
+certhub_tmp_dir_path: "{{ certhub_user_home }}/tmp"
+certhub_tmp_dir_owner: "{{ certhub_user_name }}"
+certhub_tmp_dir_group: "{{ certhub_user_group }}"
+certhub_tmp_dir_mode: 0700
 
 certhub_certhub_url: "https://github.com/certhub/certhub/releases/download/{{ certhub_certhub_version }}/certhub-dist.tar.gz"
-certhub_certhub_archive_path: "{{ certhub_scratch_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
+certhub_certhub_archive_path: "{{ certhub_tmp_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
 certhub_gitgau_url: "https://github.com/znerol/git-gau/releases/download/{{ certhub_gitgau_version }}/git-gau-dist.tar.gz"
-certhub_gitgau_archive_path: "{{ certhub_scratch_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
+certhub_gitgau_archive_path: "{{ certhub_tmp_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"

@@ -1,90 +1,89 @@
 ---
-- name: Certhub group present
-  user:
-    name: "{{ certhub_user_group }}"
-    state: present
-    system: yes
+- name: Certhub system setup
+  become: yes
+  become_user: root
+  block:
+    - name: Certhub group present
+      group:
+        name: "{{ certhub_user_group }}"
+        state: present
+        system: yes
 
-- name: Certhub user present
-  user:
-    name: "{{ certhub_user_name }}"
-    group: "{{ certhub_user_group }}"
-    state: present
-    system: yes
-    home: "{{ certhub_user_home }}"
-    shell: /usr/bin/git-shell
+    - name: Certhub user present
+      user:
+        name: "{{ certhub_user_name }}"
+        group: "{{ certhub_user_group }}"
+        state: present
+        system: yes
+        home: "{{ certhub_user_home }}"
+        shell: /usr/bin/git-shell
 
-- name: Certhub config directory present
-  file:
-    path: "{{ certhub_config_dir_path }}"
-    state: directory
-    owner: "{{ certhub_config_dir_owner }}"
-    group: "{{ certhub_config_dir_group }}"
-    mode: "{{ certhub_config_dir_mode }}"
+    - name: Certhub config directory present
+      file:
+        path: "{{ certhub_config_dir_path }}"
+        state: directory
+        owner: "{{ certhub_config_dir_owner }}"
+        group: "{{ certhub_config_dir_group }}"
+        mode: "{{ certhub_config_dir_mode }}"
 
-- name: Certhub controller SSH public key present
-  when: certhub_user_authorized_key
-  authorized_key:
-    key: "{{ certhub_user_authorized_key }}"
-    state: present
-    user: "{{ certhub_user_name }}"
+    - name: Certhub status directory present
+      file:
+        path: "{{ certhub_status_dir_path }}"
+        state: directory
+        owner: "{{ certhub_status_dir_owner }}"
+        group: "{{ certhub_status_dir_group }}"
+        mode: "{{ certhub_status_dir_mode }}"
 
-- name: Certhub status directory present
-  file:
-    path: "{{ certhub_status_dir_path }}"
-    state: directory
-    owner: "{{ certhub_status_dir_owner }}"
-    group: "{{ certhub_status_dir_group }}"
-    mode: "{{ certhub_status_dir_mode }}"
+    - name: Certhub local certs directory present
+      file:
+        path: "{{ certhub_certs_dir_path }}"
+        state: directory
+        owner: "{{ certhub_certs_dir_owner }}"
+        group: "{{ certhub_certs_dir_group }}"
+        mode: "{{ certhub_certs_dir_mode }}"
 
-- name: Certhub local certs directory present
-  file:
-    path: "{{ certhub_certs_dir_path }}"
-    state: directory
-    owner: "{{ certhub_certs_dir_owner }}"
-    group: "{{ certhub_certs_dir_group }}"
-    mode: "{{ certhub_certs_dir_mode }}"
+    - name: Certhub local tmp directory present
+      file:
+        path: "{{ certhub_tmp_dir_path }}"
+        state: directory
+        owner: "{{ certhub_tmp_dir_owner }}"
+        group: "{{ certhub_tmp_dir_group }}"
+        mode: "{{ certhub_tmp_dir_mode }}"
 
-- name: Certhub local repository present  # noqa 303
+- name: Certhub user home setup
   become: yes
   become_user: "{{ certhub_user_name }}"
-  command: >
-    git init --bare "{{ certhub_repo_path }}"
-  args:
-    creates: "{{ certhub_repo_path }}"
+  block:
+    - name: Certhub local repository present  # noqa 303
+      command: >
+        git init --bare "{{ certhub_repo_path }}"
+      args:
+        creates: "{{ certhub_repo_path }}"
 
-- name: Certhub local scratch directory present
-  file:
-    path: "{{ certhub_scratch_dir_path }}"
-    state: directory
-    owner: "{{ certhub_scratch_dir_owner }}"
-    group: "{{ certhub_scratch_dir_group }}"
-    mode: "{{ certhub_scratch_dir_mode }}"
+    - name: Git GAU downloaded
+      get_url:
+        dest: "{{ certhub_gitgau_archive_path }}"
+        url: "{{ certhub_gitgau_url }}"
+        checksum: "{{ certhub_gitgau_checksum }}"
 
-- name: Git GAU downloaded
-  become: yes
-  become_user: "{{ certhub_user_name }}"
-  get_url:
-    dest: "{{ certhub_gitgau_archive_path }}"
-    url: "{{ certhub_gitgau_url }}"
-    checksum: "{{ certhub_gitgau_checksum }}"
+    - name: Certhub downloaded
+      get_url:
+        dest: "{{ certhub_certhub_archive_path }}"
+        url: "{{ certhub_certhub_url }}"
+        checksum: "{{ certhub_certhub_checksum }}"
 
-- name: Git GAU present
-  unarchive:
-    src: "{{ certhub_gitgau_archive_path }}"
-    dest: "{{ certhub_gitgau_prefix }}"
-    remote_src: yes
+- name: Certhub software setup
+  become: true
+  become_user: root
+  block:
+    - name: Git GAU present
+      unarchive:
+        src: "{{ certhub_gitgau_archive_path }}"
+        dest: "{{ certhub_gitgau_prefix }}"
+        remote_src: yes
 
-- name: Certhub downloaded
-  become: yes
-  become_user: "{{ certhub_user_name }}"
-  get_url:
-    dest: "{{ certhub_certhub_archive_path }}"
-    url: "{{ certhub_certhub_url }}"
-    checksum: "{{ certhub_certhub_checksum }}"
-
-- name: Certhub present
-  unarchive:
-    src: "{{ certhub_certhub_archive_path }}"
-    dest: "{{ certhub_certhub_prefix }}"
-    remote_src: yes
+    - name: Certhub present
+      unarchive:
+        src: "{{ certhub_certhub_archive_path }}"
+        dest: "{{ certhub_certhub_prefix }}"
+        remote_src: yes
