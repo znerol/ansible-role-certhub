@@ -1,29 +1,91 @@
 ---
 dependency:
   name: galaxy
+
 driver:
   name: docker
+
 lint:
   name: yamllint
+
 platforms:
-  - name: ubuntu
+  - name: ubuntu-node
     image: solita/ubuntu-systemd:latest
     command: /sbin/init
     capabilities:
       - SYS_ADMIN
+    networks:
+      - name: molecule-certhub
+    groups:
+      - server
+    security_opts:
+      - seccomp=unconfined
+    stop-signal: SIGRTMIN+3
+    tmpfs:
+      - /run
+      - /run/lock
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: centos
+
+  - name: centos-node
     image: centos:7
     command: /sbin/init
     capabilities:
       - SYS_ADMIN
+    networks:
+      - name: molecule-certhub
+    groups:
+      - server
+    security_opts:
+      - seccomp=unconfined
+    stop-signal: SIGRTMIN+3
+    tmpfs:
+      - /run
+      - /run/lock
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  - name: ubuntu-controller
+    image: solita/ubuntu-systemd:latest
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN
+    networks:
+      - name: molecule-certhub
+    groups:
+      - controller
+    security_opts:
+      - seccomp=unconfined
+    stop-signal: SIGRTMIN+3
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  - name: centos-controller
+    image: centos:7
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN
+    networks:
+      - name: molecule-certhub
+    groups:
+      - controller
+    security_opts:
+      - seccomp=unconfined
+    stop-signal: SIGRTMIN+3
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+
 verifier:
   name: testinfra
   lint:
