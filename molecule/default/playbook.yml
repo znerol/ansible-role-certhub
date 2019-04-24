@@ -18,14 +18,17 @@
   hosts: controller
   tasks:
     - import_role:
-        name: ansible-role-certhub
-        tasks_from: certbot-noroot-config.yml
-
-    - import_role:
         name: certbot
 
     - import_role:
         name: sshkey
+
+    - import_role:
+        name: pebble-ca
+
+    - import_role:
+        name: ansible-role-certhub
+        tasks_from: certbot-noroot-config.yml
 
 
 - name: Server
