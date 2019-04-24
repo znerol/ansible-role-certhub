@@ -81,6 +81,18 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
+  - name: challenge-server
+    image: letsencrypt/pebble-challtestsrv
+    command: /usr/bin/pebble-challtestsrv
+    networks:
+      - name: molecule-certhub
+
+  - name: acme-server
+    image: letsencrypt/pebble
+    command: /usr/bin/pebble -strict -dnsserver challenge-server:8053
+    networks:
+      - name: molecule-certhub
+
 provisioner:
   name: ansible
   lint:
