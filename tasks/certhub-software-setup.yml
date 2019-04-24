@@ -1,0 +1,32 @@
+---
+- name: Certhub software download
+  become: yes
+  become_user: "{{ certhub_user_name }}"
+  block:
+    - name: Git GAU downloaded
+      get_url:
+        dest: "{{ certhub_gitgau_archive_path }}"
+        url: "{{ certhub_gitgau_url }}"
+        checksum: "{{ certhub_gitgau_checksum }}"
+
+    - name: Certhub downloaded
+      get_url:
+        dest: "{{ certhub_certhub_archive_path }}"
+        url: "{{ certhub_certhub_url }}"
+        checksum: "{{ certhub_certhub_checksum }}"
+
+- name: Certhub software setup
+  become: yes
+  become_user: root
+  block:
+    - name: Git GAU present
+      unarchive:
+        src: "{{ certhub_gitgau_archive_path }}"
+        dest: "{{ certhub_gitgau_prefix }}"
+        remote_src: yes
+
+    - name: Certhub present
+      unarchive:
+        src: "{{ certhub_certhub_archive_path }}"
+        dest: "{{ certhub_certhub_prefix }}"
+        remote_src: yes

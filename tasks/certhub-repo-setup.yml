@@ -1,0 +1,10 @@
+---
+- name: Certhub repo setup
+  become: yes
+  become_user: "{{ certhub_user_name }}"
+  block:
+    - name: Certhub local repository present  # noqa 303
+      command: >
+        git init --bare "{{ certhub_repo_path }}"
+      args:
+        creates: "{{ certhub_repo_path }}"

@@ -1,0 +1,9 @@
+- name: Certbot run / Cert expiry path and timer units enabled and started
+  loop:
+    - "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
+    - "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
+    - "certhub-certbot-run@{{ certhub_cert_slug }}.path"
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started

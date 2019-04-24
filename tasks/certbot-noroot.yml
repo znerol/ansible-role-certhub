@@ -1,0 +1,19 @@
+- name: Certbot config for (non-root) certhub user
+  become: yes
+  become_user: "{{ certhub_user_name }}"
+  block:
+    - name: Certbot config directory present
+      file:
+        path: "{{ certhub_certbot_cli_ini_path | dirname }}"
+        state: directory
+        recurse: yes
+
+    - name: Certbot config file present
+      copy:
+        dest: "{{ certhub_certbot_cli_ini_path }}"
+        content: |
+          work-dir: {{ certhub_certbot_work_dir }}
+          logs-dir: {{ certhub_certbot_logs_dir }}
+          config-dir: {{ certhub_certbot_config_dir }}
+          {{ certhub_certbot_cli_ini_content }}
+

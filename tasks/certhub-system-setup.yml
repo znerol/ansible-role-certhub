@@ -1,0 +1,57 @@
+---
+- name: Certhub system setup
+  become: yes
+  become_user: root
+  block:
+    - name: Certhub group present
+      group:
+        name: "{{ certhub_user_group }}"
+        state: present
+        system: yes
+
+    - name: Certhub user present
+      user:
+        name: "{{ certhub_user_name }}"
+        group: "{{ certhub_user_group }}"
+        state: present
+        system: yes
+        home: "{{ certhub_user_home }}"
+        shell: /usr/bin/git-shell
+
+    - name: Certhub home permissions
+      file:
+        path: "{{ certhub_user_home }}"
+        state: directory
+        mode: 0755
+
+    - name: Certhub config directory present
+      file:
+        path: "{{ certhub_config_dir_path }}"
+        state: directory
+        owner: "{{ certhub_config_dir_owner }}"
+        group: "{{ certhub_config_dir_group }}"
+        mode: "{{ certhub_config_dir_mode }}"
+
+    - name: Certhub status directory present
+      file:
+        path: "{{ certhub_status_dir_path }}"
+        state: directory
+        owner: "{{ certhub_status_dir_owner }}"
+        group: "{{ certhub_status_dir_group }}"
+        mode: "{{ certhub_status_dir_mode }}"
+
+    - name: Certhub local certs directory present
+      file:
+        path: "{{ certhub_certs_dir_path }}"
+        state: directory
+        owner: "{{ certhub_certs_dir_owner }}"
+        group: "{{ certhub_certs_dir_group }}"
+        mode: "{{ certhub_certs_dir_mode }}"
+
+    - name: Certhub local private directory present
+      file:
+        path: "{{ certhub_private_dir_path }}"
+        state: directory
+        owner: "{{ certhub_private_dir_owner }}"
+        group: "{{ certhub_private_dir_group }}"
+        mode: "{{ certhub_private_dir_mode }}"
