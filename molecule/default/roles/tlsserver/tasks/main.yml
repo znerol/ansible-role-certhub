@@ -9,8 +9,8 @@
           command: >
             openssl genpkey
             -out "{{ tls_key_path }}"
-            -algorithm EC
-            -pkeyopt ec_paramgen_curve:P-256
+            -algorithm RSA
+            -pkeyopt dsa_paramgen_bits:2048
           args:
             creates: "{{ tls_key_path }}"
 
