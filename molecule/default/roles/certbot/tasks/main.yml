@@ -1,0 +1,16 @@
+    - name: ACME clients setup
+      become: yes
+      become_user: root
+      block:
+        - name: EPEL repo present
+          when: ansible_pkg_mgr == 'yum'
+          package:
+            name: epel-release
+            state: present
+
+        - name: Certbot present
+          loop:
+            - certbot
+          package:
+            name: "{{ item }}"
+            state: present

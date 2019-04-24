@@ -1,10 +1,11 @@
 ---
 - name: Converge
-  hosts: all
+  hosts: controller:server
   tasks:
-    - name: Git present
+    - name: Git and OpenSSL present
       loop:
         - git
+        - openssl
       package:
         name: "{{ item }}"
         state: present
@@ -16,72 +17,22 @@
 - name: Controller
   hosts: controller
   tasks:
-    - name: SSH key setup
-      become: yes
-      become_user: certhub
-      block:
-        - name: SSH directory present
-          file:
-            path: "${HOME}/.ssh"
-            state: directory
-            mode: 0700
+    - import_role:
+        name: ansible-role-certhub
+        tasks_from: certbot-noroot-config.yml
 
-        - name: SSH keys generated
-          command: >
-            ssh-keygen -t ed25519 -C "{{ inventory_hostname | quote }}" -f "${HOME}/.ssh/id_ed25519"
-          args:
-            creates: "${HOME}/.ssh/id_ed25519"
+    - import_role:
+        name: certbot
+
+    - import_role:
+        name: sshkey
 
 
 - name: Server
   hosts: server
   tasks:
-    - name: SSH Server setup
-      become: yes
-      become_user: root
-      block:
-        - name: SSH Server present
-          loop:
-            - openssh-server
-          package:
-            name: "{{ item }}"
-            state: present
+    - import_role:
+        name: sshserver
 
-        - name: SSH Server started
-          service:
-            name: sshd
-            state: started
-
-    - name: SSH User setup
-      become: yes
-      become_user: certhub
-      block:
-        - name: Server fingerprint scanned
-          delegate_to: "{{ query('inventory_hostnames', 'controller')[0] }}"
-          changed_when: no
-          check_mode: no
-          register: ssh_keyscan
-          command: >
-            ssh-keyscan "{{ inventory_hostname | quote }}"
-
-        - name: Server fingerprints stored on controller
-          loop: "{{ query('inventory_hostnames', 'controller') }}"
-          delegate_to: "{{ item }}"
-          known_hosts:
-            name: "{{ inventory_hostname }}"
-            state: present
-            key: "{{ ssh_keyscan.stdout }}"
-
-        - name: Controller public key retreived
-          loop: "{{ query('inventory_hostnames', 'controller') }}"
-          delegate_to: "{{ item }}"
-          register: ssh_pubkey
-          slurp:
-            src: '${HOME}/.ssh/id_ed25519.pub'
-
-        - name: Controller public keys authorized on server
-          loop: "{{ ssh_pubkey.results }}"
-          authorized_key:
-            key: "{{ item['content'] | b64decode }}"
-            state: present
-            user: certhub
+    - import_role:
+        name: tlsserver

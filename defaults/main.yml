@@ -31,12 +31,24 @@ certhub_certs_dir_mode: 0755
 
 certhub_repo_path: "{{ certhub_user_home}}/certs.git"
 
-certhub_tmp_dir_path: "{{ certhub_user_home }}/tmp"
-certhub_tmp_dir_owner: "{{ certhub_user_name }}"
-certhub_tmp_dir_group: "{{ certhub_user_group }}"
-certhub_tmp_dir_mode: 0700
+certhub_private_dir_path: "{{ certhub_user_home }}/private"
+certhub_private_dir_owner: "{{ certhub_user_name }}"
+certhub_private_dir_group: "{{ certhub_user_group }}"
+certhub_private_dir_mode: 0700
 
 certhub_certhub_url: "https://github.com/certhub/certhub/releases/download/{{ certhub_certhub_version }}/certhub-dist.tar.gz"
-certhub_certhub_archive_path: "{{ certhub_tmp_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
+certhub_certhub_archive_path: "{{ certhub_private_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
 certhub_gitgau_url: "https://github.com/znerol/git-gau/releases/download/{{ certhub_gitgau_version }}/git-gau-dist.tar.gz"
-certhub_gitgau_archive_path: "{{ certhub_tmp_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
+certhub_gitgau_archive_path: "{{ certhub_private_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
+
+# cert-*.yml
+certhub_cert_slug: "{{ inventory_hostname }}"
+certhub_cert_csr_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.csr.pem"
+certhub_cert_certbot_ini_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug}}.certbot.ini"
+
+# certbot-noroot.yml
+certhub_certbot_cli_ini_path: "{{ certhub_user_home }}/.config/letsencrypt/cli.ini"
+certhub_certbot_cli_ini_content: ""
+certhub_certbot_work_dir: "{{ certhub_private_dir_path }}/certbot/work"
+certhub_certbot_logs_dir: "{{ certhub_private_dir_path }}/certbot/logs"
+certhub_certbot_config_dir: "{{ certhub_private_dir_path }}/certbot/config"

@@ -1,0 +1,48 @@
+    - name: SSH Server setup
+      become: yes
+      become_user: root
+      block:
+        - name: SSH Server present
+          loop:
+            - openssh-server
+          package:
+            name: "{{ item }}"
+            state: present
+
+        - name: SSH Server started
+          service:
+            name: sshd
+            state: started
+
+    - name: SSH User setup
+      become: yes
+      become_user: certhub
+      block:
+        - name: Server fingerprint scanned
+          changed_when: no
+          check_mode: no
+          register: ssh_keyscan
+          command: >
+            ssh-keyscan "{{ inventory_hostname | quote }}"
+
+        - name: Server fingerprints stored on controller
+          loop: "{{ query('inventory_hostnames', 'controller') }}"
+          delegate_to: "{{ item }}"
+          known_hosts:
+            name: "{{ inventory_hostname }}"
+            state: present
+            key: "{{ ssh_keyscan.stdout }}"
+
+        - name: Controller public key retreived
+          loop: "{{ query('inventory_hostnames', 'controller') }}"
+          delegate_to: "{{ item }}"
+          register: ssh_pubkey
+          slurp:
+            src: '${HOME}/.ssh/id_ed25519.pub'
+
+        - name: Controller public keys authorized on server
+          loop: "{{ ssh_pubkey.results }}"
+          authorized_key:
+            key: "{{ item['content'] | b64decode }}"
+            state: present
+            user: certhub

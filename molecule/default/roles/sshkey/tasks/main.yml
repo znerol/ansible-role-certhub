@@ -1,0 +1,15 @@
+    - name: SSH key setup
+      become: yes
+      become_user: certhub
+      block:
+        - name: SSH directory present
+          file:
+            path: "${HOME}/.ssh"
+            state: directory
+            mode: 0700
+
+        - name: SSH keys generated
+          command: >
+            ssh-keygen -t ed25519 -C "{{ inventory_hostname | quote }}" -f "${HOME}/.ssh/id_ed25519"
+          args:
+            creates: "${HOME}/.ssh/id_ed25519"
