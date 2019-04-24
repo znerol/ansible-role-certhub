@@ -4,7 +4,19 @@
   become_user: "{{ certhub_user_name }}"
   block:
     - name: Certhub local repository present  # noqa 303
+      register: certhub_repo_init
       command: >
         git init --bare "{{ certhub_repo_path }}"
       args:
-        creates: "{{ certhub_repo_path }}"
+        creates: "{{ certhub_repo_path | quote }}"
+
+    - name: Certhub local repository initialized
+      when: certhub_repo_init is changed
+      environment:
+        GIT_AUTHOR_NAME: "{{ certhub_repo_init_user_name }}"
+        GIT_AUTHOR_EMAIL: "{{ certhub_repo_init_user_email }}"
+        GIT_COMMITTER_NAME: "{{ certhub_repo_init_user_name }}"
+        GIT_COMMITTER_EMAIL: "{{ certhub_repo_init_user_email }}"
+      command: >
+        git gau-exec "{{ certhub_repo_path | quote }}"
+        git commit --allow-empty --message="{{ certhub_repo_init_message | quote }}"

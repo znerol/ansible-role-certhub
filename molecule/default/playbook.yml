@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: General Setup
   hosts: controller:server
   tasks:
     - name: Git and OpenSSL present
@@ -11,10 +11,13 @@
         state: present
 
     - import_role:
+        name: sudo-secure-path
+
+    - import_role:
         name: ansible-role-certhub
 
 
-- name: Controller
+- name: Controller Setup
   hosts: controller
   tasks:
     - import_role:
@@ -27,11 +30,14 @@
         name: pebble-ca
 
     - import_role:
+        name: testsrv-hooks
+
+    - import_role:
         name: ansible-role-certhub
         tasks_from: certbot-noroot-config.yml
 
 
-- name: Server
+- name: Server Setup
   hosts: server
   tasks:
     - import_role:
@@ -39,3 +45,43 @@
 
     - import_role:
         name: tlsserver
+
+- name: Certificate Configs
+  hosts: server
+  tasks:
+    - import_role:
+        name: ansible-role-certhub
+        tasks_from: cert-export-units.yml
+
+    - name: Certbot run units setup (on ubuntu-controller)
+      delegate_to: ubuntu-controller
+      import_role:
+        name: ansible-role-certhub
+        tasks_from: certbot-run-units.yml
+
+    - name: Certbot run units setup (on centos-controller)
+      delegate_to: centos-controller
+      import_role:
+        name: ansible-role-certhub
+        tasks_from: certbot-run-units.yml
+
+    - name: Certbot config installed
+      loop:
+        - ubuntu-controller
+        - centos-controller
+      loop_control:
+        loop_var: certhub_controller_host
+      delegate_to: "{{ certhub_controller_host }}"
+      become: yes
+      become_user: root
+      copy:
+        dest: "{{ certhub_cert_certbot_ini_path }}"
+        content: |
+          server=https://pebble:14000/dir
+          agree-tos=yes
+          register-unsafely-without-email=yes
+          manual-public-ip-logging-ok=yes
+          preferred-challenges=dns
+          manual=yes
+          manual-auth-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-auth
+          manual-cleanup-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-cleanup

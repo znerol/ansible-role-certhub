@@ -1,4 +1,6 @@
 - name: Certbot run / Cert expiry path and timer units enabled and started
+  become: yes
+  become_user: root
   loop:
     - "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
     - "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"

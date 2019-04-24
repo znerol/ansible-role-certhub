@@ -1,0 +1,13 @@
+- name: Certhub challenge test server hook script installed
+  become: yes
+  become_user: root
+  loop:
+    - certbot-hooks/testsrv-dns-01-auth
+    - certbot-hooks/testsrv-dns-01-cleanup
+  copy:
+    src: "files/{{ item }}"
+    dest: "/usr/local/lib/certhub/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+

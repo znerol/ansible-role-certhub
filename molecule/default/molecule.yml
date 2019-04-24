@@ -88,8 +88,8 @@ platforms:
       - name: molecule-certhub
 
   - name: pebble
-    image: letsencrypt/pebble
-    command: /usr/bin/pebble -config /test/config/pebble-config.json -strict -dnsserver challtestsrv:8053
+    image: letsencrypt/pebble:v1.0.1
+    command: /usr/bin/pebble -config /test/config/pebble-config.json -dnsserver challtestsrv:8053
     networks:
       - name: molecule-certhub
 

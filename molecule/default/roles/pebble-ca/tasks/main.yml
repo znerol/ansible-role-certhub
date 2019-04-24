@@ -1,7 +1,6 @@
 - name: Pebble CA setup
   become: yes
   become_user: root
-  when: ansible_pkg_mgr == 'apt'
   block:
     - when: ansible_pkg_mgr == 'apt'
       set_fact:

@@ -16,4 +16,3 @@
           logs-dir: {{ certhub_certbot_logs_dir }}
           config-dir: {{ certhub_certbot_config_dir }}
           {{ certhub_certbot_cli_ini_content }}
-
