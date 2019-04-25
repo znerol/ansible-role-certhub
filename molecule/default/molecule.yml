@@ -89,9 +89,18 @@ platforms:
 
   - name: pebble
     image: letsencrypt/pebble:v1.0.1
-    command: /usr/bin/pebble -config /test/config/pebble-config.json -dnsserver challtestsrv:8053
+    command: >
+        /bin/sh -c
+        "
+        NSENTRY=$$(getent hosts acmens) &&
+        exec /usr/bin/pebble
+        -config /test/config/pebble-config.json
+        -dnsserver $${NSENTRY%% *}:8053
+        "
     networks:
       - name: molecule-certhub
+        links:
+          - challtestsrv:acmens
 
 provisioner:
   name: ansible
