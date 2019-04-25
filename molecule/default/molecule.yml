@@ -9,6 +9,25 @@ lint:
   name: yamllint
 
 platforms:
+  - name: debian-node
+    image: debian
+    dockerfile: Dockerfile-systemd.j2
+    override_command: no
+    capabilities:
+      - SYS_ADMIN
+    networks:
+      - name: molecule-certhub
+    groups:
+      - server
+    security_opts:
+      - seccomp=unconfined
+    stop-signal: SIGRTMIN+3
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
   - name: ubuntu-node
     image: ubuntu
     dockerfile: Dockerfile-systemd.j2
@@ -38,6 +57,25 @@ platforms:
       - name: molecule-certhub
     groups:
       - server
+    security_opts:
+      - seccomp=unconfined
+    stop-signal: SIGRTMIN+3
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  - name: debian-controller
+    image: debian
+    dockerfile: Dockerfile-systemd.j2
+    override_command: no
+    capabilities:
+      - SYS_ADMIN
+    networks:
+      - name: molecule-certhub
+    groups:
+      - controller
     security_opts:
       - seccomp=unconfined
     stop-signal: SIGRTMIN+3

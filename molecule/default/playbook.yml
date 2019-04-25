@@ -67,6 +67,7 @@
 
     - name: Certbot config installed
       loop:
+        - debian-controller
         - ubuntu-controller
         - centos-controller
       loop_control:
