@@ -21,8 +21,11 @@ RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y syst
     elif [ $(command -v dnf) ]; then dnf makecache && dnf --assumeyes install systemd && dnf clean all; \
     elif [ $(command -v yum) ]; then yum makecache fast && yum install -y systemd && yum clean all; \
     elif [ $(command -v zypper) ]; then zypper refresh && zypper install -y systemd && zypper clean -a; \
-    elif [ $(command -v apk) ]; then apk update && apk add --no-cache systemd; \
-    elif [ $(command -v xbps-install) ]; then xbps-install -Syu && xbps-install -y systemd && xbps-remove -O; fi
+    elif [ $(command -v apk) ]; then echo "Alpine Linux does not support systemd" >&2 && exit 1; \
+    elif [ $(command -v xbps-install) ]; then echo "Void Linux does not support systemd" >&2 && exit 1; fi
+
+# Install systemd-sysv on Debian and recent Ubuntu.
+RUN if [ $(command -v apt-cache) ] && apt-cache show systemd-sysv >/dev/null 2>&1; then apt-get update && apt-get install -y systemd-sysv && apt-get clean; fi
 
 # Don't start any optional services except for the few we need.
 RUN find /etc/systemd/system \
@@ -37,8 +40,8 @@ RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y dbus
     elif [ $(command -v dnf) ]; then dnf makecache && dnf --assumeyes install dbus && dnf clean all; \
     elif [ $(command -v yum) ]; then yum makecache fast && yum install -y dbus && yum clean all; \
     elif [ $(command -v zypper) ]; then zypper refresh && zypper install -y dbus && zypper clean -a; \
-    elif [ $(command -v apk) ]; then apk update && apk add --no-cache dbus; \
-    elif [ $(command -v xbps-install) ]; then xbps-install -Syu && xbps-install -y dbus && xbps-remove -O; fi
+    elif [ $(command -v apk) ]; then echo "Alpine Linux does not support systemd" >&2 && exit 1; \
+    elif [ $(command -v xbps-install) ]; then echo "Void Linux does not support systemd" >&2 && exit 1; fi
 
 RUN systemctl set-default multi-user.target
 
