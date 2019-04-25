@@ -2,9 +2,19 @@
   become: yes
   become_user: root
   vars:
-    tls_key_path: "/etc/certhub/{{ inventory_hostname }}.key.pem"
+    tls_cnf_path: "/etc/certhub/{{ inventory_hostname }}.cnf"
+    tls_csr_cn: "{{ inventory_hostname }}"
     tls_csr_path: "/etc/certhub/{{ inventory_hostname }}.csr.pem"
+    tls_key_path: "/etc/certhub/{{ inventory_hostname }}.key.pem"
   block:
+    - name: OpenSSL config present
+      template:
+        src: req.cnf.j2
+        dest: "{{ tls_cnf_path }}"
+        owner: root
+        group: root
+        mode: 0600
+
     - name: TLS Key present
       command: >
         openssl genpkey
@@ -20,8 +30,8 @@
       check_mode: no
       command: >
         openssl req -new -batch
+        -config "{{ tls_cnf_path }}"
         -key "{{ tls_key_path }}"
-        -subj "/CN={{ inventory_hostname }}"
 
     - name: TLS Cert request stored on controller
       loop: "{{ query('inventory_hostnames', 'controller') }}"

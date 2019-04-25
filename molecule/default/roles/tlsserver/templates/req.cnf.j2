@@ -1,0 +1,10 @@
+[ req ]
+distinguished_name  = req_dn
+req_extensions      = req_ext
+
+[ req_dn ]
+commonName          = Common Name (eg, YOUR name)
+commonName_default  = {{ tls_csr_cn }}
+
+[ req_ext ]
+subjectAltName      = DNS:{{ tls_csr_cn }}
