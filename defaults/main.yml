@@ -31,8 +31,9 @@ certhub_certs_dir_mode: 0755
 
 certhub_repo_path: "{{ certhub_user_home}}/certs.git"
 certhub_repo_init_message: Init
-certhub_repo_init_user_name: "{{ certhub_user_name }}"
-certhub_repo_init_user_email: "{{ certhub_user_name }}@{{ inventory_hostname }}"
+
+certhub_git_user_name: "{{ certhub_user_name }}"
+certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
 
 certhub_private_dir_path: "{{ certhub_user_home }}/private"
 certhub_private_dir_owner: "{{ certhub_user_name }}"
