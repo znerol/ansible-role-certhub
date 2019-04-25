@@ -78,10 +78,10 @@
         dest: "{{ certhub_cert_certbot_ini_path }}"
         content: |
           server=https://pebble:14000/dir
-          agree-tos=yes
-          register-unsafely-without-email=yes
-          manual-public-ip-logging-ok=yes
+          agree-tos=true
+          register-unsafely-without-email=true
+          manual-public-ip-logging-ok=true
           preferred-challenges=dns
-          manual=yes
+          manual=true
           manual-auth-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-auth
           manual-cleanup-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-cleanup
