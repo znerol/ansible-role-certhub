@@ -2,4 +2,4 @@
 
 set -eu
 
-/usr/bin/curl -X POST -d '{"host":"_acme-challenge.$CERTBOT_DOMAIN."}' 'http://challtestsrv:8055/clear-txt'
+/usr/bin/curl -X POST -d "{\"host\":\"_acme-challenge.$CERTBOT_DOMAIN.\"}" "http://challtestsrv:8055/clear-txt"
