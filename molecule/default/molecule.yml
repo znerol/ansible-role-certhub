@@ -10,8 +10,9 @@ lint:
 
 platforms:
   - name: ubuntu-node
-    image: solita/ubuntu-systemd:latest
-    command: /sbin/init
+    image: ubuntu
+    dockerfile: Dockerfile-systemd.j2
+    override_command: no
     capabilities:
       - SYS_ADMIN
     networks:
@@ -28,8 +29,9 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: centos-node
-    image: centos:7
-    command: /sbin/init
+    image: centos
+    dockerfile: Dockerfile-systemd.j2
+    override_command: no
     capabilities:
       - SYS_ADMIN
     networks:
@@ -46,8 +48,9 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: ubuntu-controller
-    image: solita/ubuntu-systemd:latest
-    command: /sbin/init
+    image: ubuntu
+    dockerfile: Dockerfile-systemd.j2
+    override_command: no
     capabilities:
       - SYS_ADMIN
     networks:
@@ -64,8 +67,9 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: centos-controller
-    image: centos:7
-    command: /sbin/init
+    image: centos
+    dockerfile: Dockerfile-systemd.j2
+    override_command: no
     capabilities:
       - SYS_ADMIN
     networks:
