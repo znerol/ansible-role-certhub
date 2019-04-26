@@ -1,6 +1,8 @@
 Ansible Role: Certhub
 =====================
 
+[![Build Status](https://travis-ci.org/znerol/ansible-role-certhub.svg?branch=master)](https://travis-ci.org/znerol/ansible-role-certhub)
+
 Installs [certhub](https://certhub.io/) and `git-gau` on linux servers
 controlled by `systemd`.
 
