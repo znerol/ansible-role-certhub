@@ -1,10 +1,10 @@
+---
 - name: Local binaries allowed in sudo
   become: yes
   become_user: root
   lineinfile:
     path: /etc/sudoers
-    line: Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    line: 'Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'  # noqa: 203
     state: present
     regexp: ^Defaults\s+secure_path\s*=
     insertbefore: BOF
-

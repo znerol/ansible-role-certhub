@@ -1,3 +1,4 @@
+---
 - name: SSH Server setup
   become: yes
   become_user: root

@@ -1,3 +1,4 @@
+---
 - name: Certbot config for (non-root) certhub user
   become: yes
   become_user: "{{ certhub_user_name }}"

@@ -1,3 +1,4 @@
+---
 - name: Certificate export and reload units configured
   become: yes
   become_user: root
@@ -7,22 +8,22 @@
         name: "certhub-cert-export@{{ certhub_cert_slug }}.path"
         enabled: yes
         state: started
-    
+
     - name: Certificate services reload present
       copy:
         content: "{{ certhub_cert_services | join('\n') }}"
-        dest: "/etc/certhub/{{ certhub_cert_slug}}.services-reload.txt"
+        dest: "/etc/certhub/{{ certhub_cert_slug }}.services-reload.txt"
         owner: root
         group: root
         mode: 0644
-    
+
     - name: Certificate service reload path units enabled and started
       when: certhub_cert_services | length > 0
       systemd:
         name: "certhub-cert-reload@{{ certhub_cert_slug }}.path"
         enabled: yes
         state: started
-    
+
     - name: Certificate service reload path unit stopped and disabled
       when: certhub_cert_services | length == 0
       systemd:

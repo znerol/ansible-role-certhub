@@ -1,3 +1,4 @@
+---
 - name: ACME clients setup
   become: yes
   become_user: root

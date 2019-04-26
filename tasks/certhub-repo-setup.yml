@@ -3,7 +3,7 @@
   become: yes
   become_user: "{{ certhub_user_name }}"
   block:
-    - name: Certhub local repository present  # noqa 303
+    - name: Certhub local repository present
       register: certhub_repo_init
       command: >
         git init --bare "{{ certhub_repo_path }}"
