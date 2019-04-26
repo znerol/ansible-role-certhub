@@ -43,9 +43,11 @@ RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y dbus
     elif [ $(command -v apk) ]; then echo "Alpine Linux does not support systemd" >&2 && exit 1; \
     elif [ $(command -v xbps-install) ]; then echo "Void Linux does not support systemd" >&2 && exit 1; fi
 
-RUN systemctl set-default multi-user.target
+RUN systemctl set-default multi-user.target && \
+    mkdir -p /etc/systemd/journald.conf.d && \
+    echo "[Journal]" > /etc/systemd/journald.conf.d/forward-to-console.conf && \
+    echo "ForwardToConsole=yes" >> /etc/systemd/journald.conf.d/forward-to-console.conf
 
 STOPSIGNAL SIGRTMIN+3
 
-# Workaround for docker/docker#27202, technique based on comments from docker/docker#9212
-CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
+CMD ["/sbin/init", "--log-target=journal"]
