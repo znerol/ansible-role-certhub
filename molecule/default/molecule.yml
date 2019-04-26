@@ -13,6 +13,7 @@ platforms:
     image: debian
     dockerfile: Dockerfile-systemd.j2
     override_command: no
+    tty: yes
     capabilities:
       - SYS_ADMIN
     networks:
@@ -32,6 +33,7 @@ platforms:
     image: ubuntu
     dockerfile: Dockerfile-systemd.j2
     override_command: no
+    tty: yes
     capabilities:
       - SYS_ADMIN
     networks:
@@ -51,6 +53,7 @@ platforms:
     image: centos
     dockerfile: Dockerfile-systemd.j2
     override_command: no
+    tty: yes
     capabilities:
       - SYS_ADMIN
     networks:
@@ -70,6 +73,7 @@ platforms:
     image: debian
     dockerfile: Dockerfile-systemd.j2
     override_command: no
+    tty: yes
     capabilities:
       - SYS_ADMIN
     networks:
@@ -89,6 +93,7 @@ platforms:
     image: ubuntu
     dockerfile: Dockerfile-systemd.j2
     override_command: no
+    tty: yes
     capabilities:
       - SYS_ADMIN
     networks:
@@ -108,6 +113,7 @@ platforms:
     image: centos
     dockerfile: Dockerfile-systemd.j2
     override_command: no
+    tty: yes
     capabilities:
       - SYS_ADMIN
     networks:
