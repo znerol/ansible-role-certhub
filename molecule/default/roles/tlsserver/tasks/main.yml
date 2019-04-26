@@ -6,6 +6,7 @@
     tls_csr_cn: "{{ inventory_hostname }}"
     tls_csr_path: "/etc/certhub/{{ inventory_hostname }}.csr.pem"
     tls_key_path: "/etc/certhub/{{ inventory_hostname }}.key.pem"
+    tls_cert_path: "/var/lib/certhub/certs/{{ inventory_hostname }}.fullchain.pem"
   block:
     - name: OpenSSL config present
       template:
@@ -39,3 +40,31 @@
       copy:
         dest: "{{ tls_csr_path }}"
         content: "{{ cert_csr.stdout }}"
+
+    - name: EPEL repo present
+      when: ansible_pkg_mgr == 'yum'
+      package:
+        name: epel-release
+        state: present
+
+    - name: NGINX installed
+      package:
+        name: nginx
+        state: present
+
+    - name: NGINX started with default config
+      service:
+        name: nginx
+        enabled: true
+        state: started
+
+    - name: NGINX config present
+      vars:
+        nginx_user: "{{ 'nginx' if ansible_pkg_mgr == 'yum' else 'www-data' }}"
+        nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_pkg_mgr == 'yum' else '/var/www/html' }}"
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: 0644
