@@ -1,22 +1,22 @@
-    - name: ACME clients setup
-      become: yes
-      become_user: root
-      block:
-        - name: EPEL repo present
-          when: ansible_pkg_mgr == 'yum'
-          package:
-            name: epel-release
-            state: present
+- name: ACME clients setup
+  become: yes
+  become_user: root
+  block:
+    - name: EPEL repo present
+      when: ansible_pkg_mgr == 'yum'
+      package:
+        name: epel-release
+        state: present
 
-        - name: PPA present
-          when: ansible_distribution == 'Ubuntu'
-          apt_repository:
-            repo: ppa:certbot/certbot
-            codename: "{{ ansible_distribution_release }}"
+    - name: PPA present
+      when: ansible_distribution == 'Ubuntu'
+      apt_repository:
+        repo: ppa:certbot/certbot
+        codename: "{{ ansible_distribution_release }}"
 
-        - name: Certbot present
-          loop:
-            - certbot
-          package:
-            name: "{{ item }}"
-            state: present
+    - name: Certbot present
+      loop:
+        - certbot
+      package:
+        name: "{{ item }}"
+        state: present
