@@ -5,10 +5,10 @@
   block:
     - name: Certhub local repository present
       register: certhub_repo_init
-      command: >
-        git init --bare "{{ certhub_repo_path }}"
       args:
-        creates: "{{ certhub_repo_path | quote }}"
+        creates: "{{ certhub_repo_path }}"
+      command: >
+        git init --bare "{{ certhub_repo_path | quote }}"
 
     - name: Certhub local repository initialized
       when: certhub_repo_init is changed
