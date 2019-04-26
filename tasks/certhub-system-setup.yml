@@ -15,14 +15,14 @@
         group: "{{ certhub_user_group }}"
         state: present
         system: yes
-        home: "{{ certhub_user_home }}"
+        home: "{{ certhub_home_dir_path }}"
         shell: /usr/bin/git-shell
 
     - name: Certhub home permissions
       file:
-        path: "{{ certhub_user_home }}"
+        path: "{{ certhub_home_dir_path }}"
         state: directory
-        mode: 0755
+        mode: "{{ certhub_home_dir_mode }}"
 
     - name: Certhub config directory present
       file:
