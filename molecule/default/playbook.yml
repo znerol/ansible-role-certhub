@@ -49,33 +49,31 @@
     - import_role:
         name: tlsserver
 
+    - name: Repo push units setup
+      delegate_to: "{{ molecule_certhub_controller }}"
+      import_role:
+        name: ansible-role-certhub
+        tasks_from: repo-push-units.yml
+
+
 - name: Certificate Configs
   hosts: server
   tasks:
-    - import_role:
+    - vars:
+        certhub_cert_services:
+          - nginx
+      import_role:
         name: ansible-role-certhub
         tasks_from: cert-export-units.yml
 
-    - name: Certbot run units setup (on ubuntu-controller)
-      delegate_to: ubuntu-controller
-      import_role:
-        name: ansible-role-certhub
-        tasks_from: certbot-run-units.yml
-
-    - name: Certbot run units setup (on centos-controller)
-      delegate_to: centos-controller
+    - name: Certbot run units setup
+      delegate_to: "{{ molecule_certhub_controller }}"
       import_role:
         name: ansible-role-certhub
         tasks_from: certbot-run-units.yml
 
     - name: Certbot config installed
-      loop:
-        - debian-controller
-        - ubuntu-controller
-        - centos-controller
-      loop_control:
-        loop_var: certhub_controller_host
-      delegate_to: "{{ certhub_controller_host }}"
+      delegate_to: "{{ molecule_certhub_controller }}"
       become: yes
       become_user: root
       copy:

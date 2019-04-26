@@ -152,6 +152,14 @@ platforms:
 
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      debian-node:
+        molecule_certhub_controller: debian-controller
+      ubuntu-node:
+        molecule_certhub_controller: ubuntu-controller
+      centos-node:
+        molecule_certhub_controller: centos-controller
   lint:
     name: ansible-lint
 
