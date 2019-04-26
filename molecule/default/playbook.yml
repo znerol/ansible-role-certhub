@@ -3,9 +3,12 @@
   hosts: controller:server
   tasks:
     - name: Git and OpenSSL present
+      become: yes
+      become_user: root
       loop:
         - git
         - openssl
+        - rsync
       package:
         name: "{{ item }}"
         state: present
