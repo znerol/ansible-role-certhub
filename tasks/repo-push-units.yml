@@ -1,0 +1,9 @@
+- name: Repo push units configured
+  become: yes
+  become_user: root
+  block:
+    - name: Repo push path unit enabled and started
+      systemd:
+        name: "{{ certhub_repo_push_path_unit }}"
+        enabled: yes
+        state: started

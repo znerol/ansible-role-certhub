@@ -32,6 +32,12 @@ certhub_certs_dir_mode: 0755
 certhub_repo_path: "{{ certhub_user_home}}/certs.git"
 certhub_repo_init_message: Init
 
+certhub_repo_push_user: "{{ certhub_user_name }}"
+certhub_repo_push_host: "{{ inventory_hostname }}"
+certhub_repo_push_path: "{{ certhub_repo_path }}"
+certhub_repo_push_remote: "{{ '{:s}@{:s}:{:s}'.format(certhub_repo_push_user, certhub_repo_push_host, certhub_repo_push_path) }}"
+certhub_repo_push_path_unit: "{{ lookup('pipe', 'systemd-escape --template=certhub-repo-push@.path ' + certhub_repo_push_remote | quote) }}"
+
 certhub_git_user_name: "{{ certhub_user_name }}"
 certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
 
