@@ -21,32 +21,32 @@ Role Variables
 This role contains multiple `task` files. The `main` task file only imports
 some of them:
 
-1. [certhub-system-setup.yml](#variables-for-certhub-system-setup-yml): Creates
+1. [certhub-system-setup.yml](#variables-for-certhub-system-setupyml): Creates
    the `certhub` user and group, the configuration directory and prepares the
    home directory.
-1. [certhub-software-setup.yml](#variables-for-certhub-software-setup-yml):
+1. [certhub-software-setup.yml](#variables-for-certhub-software-setupyml):
    Retrieves and installs `certhub` and `git-gau`.
-1. [certhub-git-setup.yml](#variables-for-certhub-git-setup-yml): Configures
+1. [certhub-git-setup.yml](#variables-for-certhub-git-setupyml): Configures
    git `user.name` and `user.email`.
-1. [certhub-repo-setup.yml](#variables-for-certhub-repo-setup-yml): Initializes
+1. [certhub-repo-setup.yml](#variables-for-certhub-repo-setupyml): Initializes
    the local `certs` git repository.
 
 The following task files contain additional configuration steps:
 
-1. [certbot-noroot-config.yml](#variables-for-certbot-noroot-config.yml):
+1. [certbot-noroot-config.yml](#variables-for-certbot-noroot-configyml):
    Simplifies running `certbot` as the unprivileged `certhub` user by placing
    an appropriate `cli.ini` file.
 
 The following task files contain steps used to setup acquisition and deployment
 of certificates.
 
-1. [repo-push-units.yml](#variables-for-repo-push-units-yml): Sets up `systemd`
+1. [repo-push-units.yml](#variables-for-repo-push-unitsyml): Sets up `systemd`
    units responsible for pushing the certs repository to SSL/TLS servers
    whenever it changes.
-1. [certbot-run-units.yml](#variables-for-run-units-yml): Sets up `systemd`
+1. [certbot-run-units.yml](#variables-for-certbot-run-unitsyml): Sets up `systemd`
    units responsible for issuing/renewing a certificate and also monitor it for
    expiry (controller).
-1. [cert-export-units.yml](#variables-for-cert-export-units-yml): Sets up
+1. [cert-export-units.yml](#variables-for-cert-export-unitsyml): Sets up
    `systemd` units responsible for deploying a certificate on an SSL/TLS server
    and reload affected services.
 
