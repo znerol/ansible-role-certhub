@@ -248,6 +248,18 @@ Example Playbook
     - name: TLS Server Setup
       hosts: tls-server
       tasks:
+        - name: Certhub dependencies present
+          loop:
+            - git
+            - openssl
+          package:
+            name: "{{ item }}"
+            state: present
+
+        - name: Certhub present
+          import_role:
+            name: znerol.certhub
+
         - name: Repo push units setup
           delegate_to: name-of-certhub-controller
           import_role:
