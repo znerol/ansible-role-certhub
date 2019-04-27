@@ -88,21 +88,22 @@ certhub_private_dir_mode: 0700
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 ```
-certhub_certhub_version: v1.0.0-beta5
-certhub_certhub_checksum: >
-  sha256:a3a148759f7b8d4474a4a5bf3e9f33edd94322d9dcfc9d0c0dad880f7a14fca9
+certhub_certhub_version: v1.0.0-beta6
+certhub_certhub_checksum: "{{ certhub_certhub_releases[certhub_certhub_version]['checksum'] }}"
+certhub_certhub_url: "{{ certhub_certhub_releases[certhub_certhub_version]['url'] }}"
 certhub_certhub_prefix: /usr/local
+certhub_certhub_archive_path: "{{ certhub_private_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
 
 certhub_gitgau_version: v1.1.0
-certhub_gitgau_checksum: >
-  sha256:a5f02e4989706948f6cc903883e39a25c8e6d6efd4a72dfc34e3e34013c2082a
+certhub_gitgau_checksum: "{{ certhub_gitgau_releases[certhub_gitgau_version]['checksum'] }}"
+certhub_gitgau_url: "{{ certhub_gitgau_releases[certhub_gitgau_version]['url'] }}"
 certhub_gitgau_prefix: /usr/local
-
-certhub_certhub_url: "https://github.com/certhub/certhub/releases/download/{{ certhub_certhub_version }}/certhub-dist.tar.gz"
-certhub_certhub_archive_path: "{{ certhub_private_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
-certhub_gitgau_url: "https://github.com/znerol/git-gau/releases/download/{{ certhub_gitgau_version }}/git-gau-dist.tar.gz"
 certhub_gitgau_archive_path: "{{ certhub_private_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
 ```
+
+The variables `certhub_certhub_releases` and `certhub_gitgau_releases` contain
+urls and checksum of all public releases. Set `certhub_certhub_version` and
+`certhub_gitgau_version` to pin a specific version.
 
 ### Variables for certhub-git-setup.yml
 

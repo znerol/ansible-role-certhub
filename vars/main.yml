@@ -1,2 +1,23 @@
 ---
-# vars file for ansible-role-certhub
+
+certhub_certhub_releases:
+  v1.0.0-beta6:
+    checksum: sha256:2b2c361d54de00ae05b2e109eb1411a858ecd0a6c6e1734318e3743915dc149f
+    url: https://github.com/certhub/certhub/releases/download/v1.0.0-beta6/certhub-dist.tar.gz
+  v1.0.0-beta5:
+    checksum: sha256:a3a148759f7b8d4474a4a5bf3e9f33edd94322d9dcfc9d0c0dad880f7a14fca9
+    url: https://github.com/certhub/certhub/releases/download/v1.0.0-beta5/certhub-dist.tar.gz
+  v1.0.0-beta3:
+    checksum: sha256:7c25c23f44746c2aa65f5bb79816e2783aae1f2f16f4109ca8cc28f6e31e928e
+    url: https://github.com/certhub/certhub/releases/download/v1.0.0-beta3/certhub-dist.tar.gz
+  v1.0.0-beta2:
+    checksum: sha256:82e33fbf233be63ab527d8d6f493ac051d1ee2abb52d15dbfb754e94a001db23
+    url: https://github.com/certhub/certhub/releases/download/v1.0.0-beta2/certhub-dist.tar.gz
+
+certhub_gitgau_releases:
+  v1.1.0:
+    checksum: sha256:a5f02e4989706948f6cc903883e39a25c8e6d6efd4a72dfc34e3e34013c2082a
+    url: https://github.com/znerol/git-gau/releases/download/v1.1.0/git-gau-dist.tar.gz
+  v1.0.0:
+    checksum: sha256:c6de5739c64bac209976eebb02bccc4c69912046fc2cbccb6853e0592c81cd08
+    url: https://github.com/znerol/git-gau/releases/download/v1.0.0/git-gau-dist.tar.gz
