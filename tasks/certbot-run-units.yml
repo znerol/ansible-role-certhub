@@ -3,9 +3,9 @@
   become: yes
   become_user: root
   loop:
-    - "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
-    - "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
-    - "certhub-certbot-run@{{ certhub_cert_slug }}.path"
+    - "{{ certhub_cert_expiry_path_unit }}"
+    - "{{ certhub_cert_expiry_timer_unit }}"
+    - "{{ certhub_certbot_run_path_unit }}"
   systemd:
     name: "{{ item }}"
     enabled: true

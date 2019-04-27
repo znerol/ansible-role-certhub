@@ -159,7 +159,13 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```
 certhub_cert_slug: "{{ inventory_hostname }}"
+
+certhub_cert_expiry_path_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
+certhub_cert_expiry_timer_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
+certhub_certbot_run_path_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.path"
 ```
+
+Set `certhub_cert_slug` in order to specify the certificate instance.
 
 ### Variables for cert-export-units.yml
 
@@ -167,8 +173,17 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```
 certhub_cert_slug: "{{ inventory_hostname }}"
+
 certhub_cert_services: []
+
+certhub_cert_export_path_unit: "certhub-cert-export@{{ certhub_cert_slug }}.path"
+certhub_cert_reload_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.services-reload.txt"
+certhub_cert_reload_path_unit: "certhub-cert-reload@{{ certhub_cert_slug }}.path"
 ```
+
+Set `certhub_cert_slug` in order to specify the certificate instance. A list of
+systemd service units which should be reloaded whenever the certificate
+instance changes can be specified using `certhub_cert_services`.
 
 Dependencies
 ------------

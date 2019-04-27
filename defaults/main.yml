@@ -46,20 +46,32 @@ certhub_repo_push_host: "{{ inventory_hostname }}"
 certhub_repo_push_path: "{{ certhub_repo_path }}"
 certhub_repo_push_remote: "{{ '{:s}@{:s}:{:s}'.format(certhub_repo_push_user, certhub_repo_push_host, certhub_repo_push_path) }}"
 certhub_repo_push_path_unit: "{{ lookup('pipe', 'systemd-escape --template=certhub-repo-push@.path ' + certhub_repo_push_remote | quote) }}"
+certhub_repo_push_service_unit: "{{ lookup('pipe', 'systemd-escape --template=certhub-repo-push@.service ' + certhub_repo_push_remote | quote) }}"
 
 certhub_git_user_name: "{{ certhub_user_name }}"
 certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
-
-certhub_certhub_url: "https://github.com/certhub/certhub/releases/download/{{ certhub_certhub_version }}/certhub-dist.tar.gz"
-certhub_certhub_archive_path: "{{ certhub_private_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
-certhub_gitgau_url: "https://github.com/znerol/git-gau/releases/download/{{ certhub_gitgau_version }}/git-gau-dist.tar.gz"
-certhub_gitgau_archive_path: "{{ certhub_private_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
 
 # cert-*.yml
 certhub_cert_slug: "{{ inventory_hostname }}"
 certhub_cert_services: []
 certhub_cert_csr_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.csr.pem"
-certhub_cert_certbot_ini_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug}}.certbot.ini"
+certhub_cert_reload_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.services-reload.txt"
+certhub_certbot_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug}}.certbot.ini"
+certhub_dehydrated_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug}}.dehydrated.conf"
+
+certhub_cert_expiry_path_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
+certhub_cert_expiry_service_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.service"
+certhub_cert_expiry_timer_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
+certhub_cert_export_path_unit: "certhub-cert-export@{{ certhub_cert_slug }}.path"
+certhub_cert_export_service_unit: "certhub-cert-export@{{ certhub_cert_slug }}.service"
+certhub_cert_reload_path_unit: "certhub-cert-reload@{{ certhub_cert_slug }}.path"
+certhub_cert_reload_service_unit: "certhub-cert-reload@{{ certhub_cert_slug }}.service"
+certhub_certbot_run_path_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.path"
+certhub_certbot_run_service_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.service"
+certhub_dehydrated_run_path_unit: "certhub-dehydrated-run@{{ certhub_cert_slug }}.path"
+certhub_dehydrated_run_service_unit: "certhub-dehydrated-run@{{ certhub_cert_slug }}.service"
+certhub_lego_run_path_unit: "certhub-lego-run@{{ certhub_cert_slug }}.path"
+certhub_lego_run_service_unit: "certhub-lego-run@{{ certhub_cert_slug }}.service"
 
 # certbot-noroot.yml
 certhub_certbot_cli_ini_path: "{{ certhub_home_dir_path }}/.config/letsencrypt/cli.ini"

@@ -77,7 +77,7 @@
       become: yes
       become_user: root
       copy:
-        dest: "{{ certhub_cert_certbot_ini_path }}"
+        dest: "{{ certhub_certbot_config_path }}"
         content: |
           server=https://pebble:14000/dir
           agree-tos=true
