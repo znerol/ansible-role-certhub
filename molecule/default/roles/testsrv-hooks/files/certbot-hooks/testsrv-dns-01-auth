@@ -2,4 +2,4 @@
 
 set -eu
 
-/usr/bin/curl -X POST -d "{\"host\":\"_acme-challenge.$CERTBOT_DOMAIN.\", \"value\": \"$CERTBOT_VALIDATION\"}" "http://challtestsrv:8055/set-txt"
+/usr/bin/curl -X POST -d "{\"host\":\"_acme-challenge.${CERTBOT_DOMAIN}.\", \"value\": \"${CERTBOT_VALIDATION}\"}" "${TESTSRV_BASE_URL}set-txt"
