@@ -13,7 +13,7 @@
       copy:
         dest: "{{ certhub_certbot_cli_ini_path }}"
         content: |
-          work-dir: {{ certhub_certbot_work_dir }}
-          logs-dir: {{ certhub_certbot_logs_dir }}
-          config-dir: {{ certhub_certbot_config_dir }}
+          work-dir={{ certhub_certbot_work_dir }}
+          logs-dir={{ certhub_certbot_logs_dir }}
+          config-dir={{ certhub_certbot_config_dir }}
           {{ certhub_certbot_cli_ini_content }}
