@@ -27,6 +27,9 @@
         name: certbot
 
     - import_role:
+        name: lego
+
+    - import_role:
         name: sshkey
 
     - import_role:
