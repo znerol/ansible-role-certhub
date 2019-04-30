@@ -28,7 +28,8 @@ def link_nginx_config():
 
 def test_certbot_issues_cert(host, link_nginx_config):
     host_vars = host.ansible.get_variables()
-    cert_slug = host_vars["inventory_hostname"]
+    hostname = host_vars["inventory_hostname"]
+    cert_slug = hostname
     controller = host.get_host("ansible://{:s}?ansible_inventory={:s}".format(
         host_vars["molecule_certhub_controller"],
         os.environ["MOLECULE_INVENTORY_FILE"]
@@ -47,7 +48,7 @@ def test_certbot_issues_cert(host, link_nginx_config):
     controller.run_expect([0], "curl --output %s %s", ca_path, ca_url)
 
     # Check certificate created by the controller and deployed to the server.
-    server_url = "https://{:s}/".format(host_vars["inventory_hostname"])
+    server_url = "https://{:s}/".format(hostname)
     controller.run_expect([0], "curl --cacert %s %s", ca_path, server_url)
 
     # Ensure there are no failed units on the server.
@@ -71,9 +72,10 @@ def test_certbot_issues_cert(host, link_nginx_config):
 
 def test_lego_issues_cert(host, link_nginx_config):
     host_vars = host.ansible.get_variables()
-    cert_slug = "{:s}-lego-test.ci.certhub.io".format(
+    hostname = "{:s}-lego-test.ci.certhub.io".format(
         host_vars["inventory_hostname"]
     )
+    cert_slug = hostname
     controller = host.get_host("ansible://{:s}?ansible_inventory={:s}".format(
         host_vars["molecule_certhub_controller"],
         os.environ["MOLECULE_INVENTORY_FILE"]
@@ -92,7 +94,7 @@ def test_lego_issues_cert(host, link_nginx_config):
     controller.run_expect([0], "curl --output %s %s", ca_path, ca_url)
 
     # Check certificate created by the controller and deployed to the server.
-    server_url = "https://{:s}/".format(host_vars["inventory_hostname"])
+    server_url = "https://{:s}/".format(hostname)
     controller.run_expect([0], "curl --cacert %s %s", ca_path, server_url)
 
     # Ensure there are no failed units on the server.
