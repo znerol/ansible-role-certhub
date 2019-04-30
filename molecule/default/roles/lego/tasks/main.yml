@@ -1,0 +1,28 @@
+---
+- name: Lego downloaded
+  become: yes
+  become_user: certhub
+  get_url:
+    dest: /var/lib/certhub/private/lego_v2.5.0_linux_amd64.tar.gz
+    url: https://github.com/go-acme/lego/releases/download/v2.5.0/lego_v2.5.0_linux_amd64.tar.gz
+    checksum: sha256:fc798422f4e00975cd00ad95ab8c08af6249626ae40424e6a52e50e532f6ac57
+
+- name: Lego unarchived
+  become: yes
+  become_user: root
+  unarchive:
+    src: /var/lib/certhub/private/lego_v2.5.0_linux_amd64.tar.gz
+    dest: /usr/local/bin/
+    creates: /usr/local/bin/lego
+    remote_src: yes
+    extra_opts: [ "lego" ]
+
+- name: Lego present
+  become: yes
+  become_user: root
+  file:
+    path: /usr/local/bin/lego
+    state: file
+    owner: root
+    group: root
+    mode: 0755

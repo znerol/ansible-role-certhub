@@ -27,6 +27,9 @@
         name: certbot
 
     - import_role:
+        name: lego
+
+    - import_role:
         name: sshkey
 
     - import_role:
@@ -46,7 +49,14 @@
     - import_role:
         name: sshserver
 
-    - import_role:
+    - vars:
+        tls_cert_slug: "{{ inventory_hostname }}"
+      import_role:
+        name: tlsserver
+
+    - vars:
+        tls_cert_slug: "{{ inventory_hostname }}-lego-test.ci.certhub.io"
+      import_role:
         name: tlsserver
 
     - name: Repo push units setup
@@ -59,48 +69,96 @@
 - name: Certificate Configs
   hosts: server
   tasks:
-    - vars:
+    - name: Certbot service cert setup
+      vars:
+        certhub_cert_slug: "{{ inventory_hostname }}"
         certhub_cert_services:
           - nginx
       import_role:
         name: ansible-role-certhub
         tasks_from: cert-export-units.yml
 
-    - name: Certbot run units setup
+    - name: Certbot controller cert setup
       delegate_to: "{{ molecule_certhub_controller }}"
+      vars:
+        certhub_cert_slug: "{{ inventory_hostname }}"
+      block:
+        - name: Certbot run units setup
+          import_role:
+            name: ansible-role-certhub
+            tasks_from: certbot-run-units.yml
+
+        - name: Certbot config installed
+          become: yes
+          become_user: root
+          copy:
+            dest: "{{ certhub_certbot_config_path }}"
+            owner: root
+            group: root
+            mode: 0644
+            content: |
+              server=https://pebble:14000/dir
+              agree-tos=true
+              register-unsafely-without-email=true
+              manual-public-ip-logging-ok=true
+              preferred-challenges=dns
+              manual=true
+              manual-auth-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-auth
+              manual-cleanup-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-cleanup
+
+        - name: Certbot unit environment configured
+          become: yes
+          become_user: root
+          vars:
+            certhub_unit_prefix: certhub-certbot-run
+          copy:
+            dest: "{{ certhub_cert_unit_env_path }}"
+            owner: "{{ certhub_env_owner }}"
+            group: "{{ certhub_env_group }}"
+            mode: "{{ certhub_env_mode }}"
+            content: |
+              TESTSRV_BASE_URL=http://challtestsrv:8055/
+
+    - name: Lego service cert setup
+      vars:
+        certhub_cert_slug: "{{ inventory_hostname }}-lego-test.ci.certhub.io"
+        certhub_cert_services:
+          - nginx
       import_role:
         name: ansible-role-certhub
-        tasks_from: certbot-run-units.yml
+        tasks_from: cert-export-units.yml
 
-    - name: Certbot config installed
+    - name: Lego controller cert setup
       delegate_to: "{{ molecule_certhub_controller }}"
-      become: yes
-      become_user: root
-      copy:
-        dest: "{{ certhub_certbot_config_path }}"
-        owner: root
-        group: root
-        mode: 0644
-        content: |
-          server=https://pebble:14000/dir
-          agree-tos=true
-          register-unsafely-without-email=true
-          manual-public-ip-logging-ok=true
-          preferred-challenges=dns
-          manual=true
-          manual-auth-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-auth
-          manual-cleanup-hook=/usr/local/lib/certhub/certbot-hooks/testsrv-dns-01-cleanup
-
-    - name: Certbot unit environment configured
-      delegate_to: "{{ molecule_certhub_controller }}"
-      become: yes
-      become_user: root
       vars:
-        certhub_unit_prefix: certhub-certbot-run
-      copy:
-        dest: "{{ certhub_cert_unit_env_path }}"
-        owner: "{{ certhub_env_owner }}"
-        group: "{{ certhub_env_group }}"
-        mode: "{{ certhub_env_mode }}"
-        content: |
-          TESTSRV_BASE_URL=http://challtestsrv:8055/
+        certhub_cert_slug: "{{ inventory_hostname }}-lego-test.ci.certhub.io"
+      block:
+
+        - name: Lego run units setup
+          vars:
+          import_role:
+            name: ansible-role-certhub
+            tasks_from: lego-run-units.yml
+
+        - name: Lego unit environment configured
+          become: yes
+          become_user: root
+          vars:
+            certhub_unit_prefix: certhub-lego-run
+          copy:
+            dest: "{{ certhub_cert_unit_env_path }}"
+            owner: "{{ certhub_env_owner }}"
+            group: "{{ certhub_env_group }}"
+            mode: "{{ certhub_env_mode }}"
+            content: |
+              # Global args
+              CERTHUB_LEGO_ARGS=\
+                  --accept-tos \
+                  --email travis-ci@certhub.io \
+                  --server https://pebble:14000/dir \
+                  --dns.disable-cp
+
+              # Challenge args
+              CERTHUB_LEGO_CHALLENGE_ARGS=--dns exec
+              EXEC_PATH=/usr/local/lib/certhub/lego-hooks/testsrv-dns-01-auth
+              TESTSRV_BASE_URL=http://challtestsrv:8055/
