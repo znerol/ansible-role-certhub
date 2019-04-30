@@ -18,6 +18,8 @@ platforms:
       - SYS_ADMIN
     networks:
       - name: molecule-certhub
+        aliases:
+          - debian-node-lego-test.ci.certhub.io
     groups:
       - server
     security_opts:
@@ -38,6 +40,8 @@ platforms:
       - SYS_ADMIN
     networks:
       - name: molecule-certhub
+        aliases:
+          - ubuntu-node-lego-test.ci.certhub.io
     groups:
       - server
     security_opts:
@@ -58,6 +62,8 @@ platforms:
       - SYS_ADMIN
     networks:
       - name: molecule-certhub
+        aliases:
+          - centos-node-lego-test.ci.certhub.io
     groups:
       - server
     security_opts:
