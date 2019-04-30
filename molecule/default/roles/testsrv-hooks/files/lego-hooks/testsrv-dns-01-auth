@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -eu
+
+case "$1" in
+  "present")
+    /usr/bin/curl -X POST -d "{\"host\":\"${2}\", \"value\": \"${3}\"}" "${TESTSRV_BASE_URL}set-txt"
+    ;;
+  "cleanup")
+    /usr/bin/curl -X POST -d "{\"host\":\"${2}\"}" "${TESTSRV_BASE_URL}clear-txt"
+    ;;
+  *)
+    echo "OOPS"
+    ;;
+esac

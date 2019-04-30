@@ -6,10 +6,23 @@
       package:
         name: curl
 
+    - name: Certhub challenge test server directories present
+      loop:
+        - certbot-hooks
+        - lego-hooks
+      file:
+        path: "files/{{ item }}"
+        state: directory
+        dest: "/usr/local/lib/certhub/{{ item }}"
+        owner: root
+        group: root
+        mode: 0755
+
     - name: Certhub challenge test server hook script installed
       loop:
         - certbot-hooks/testsrv-dns-01-auth
         - certbot-hooks/testsrv-dns-01-cleanup
+        - lego-hooks/testsrv-dns-01-auth
       copy:
         src: "files/{{ item }}"
         dest: "/usr/local/lib/certhub/{{ item }}"
