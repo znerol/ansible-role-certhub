@@ -10,7 +10,7 @@
 - name: Lego unarchived
   become: yes
   become_user: root
-  unarchive: 
+  unarchive:
     src: /var/lib/certhub/private/lego_v2.5.0_linux_amd64.tar.gz
     dest: /usr/local/bin/
     creates: /usr/local/bin/lego
@@ -20,7 +20,7 @@
 - name: Lego present
   become: yes
   become_user: root
-  file: 
+  file:
     path: /usr/local/bin/lego
     state: file
     owner: root
