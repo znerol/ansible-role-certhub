@@ -49,6 +49,9 @@ of certificates.
 1. [certbot-run-units.yml](#variables-for-certbot-run-unitsyml): Sets up `systemd`
    units responsible for issuing/renewing a certificate and also monitor it for
    expiry (controller).
+1. [lego-run-units.yml](#variables-for-lego-run-unitsyml): Sets up `systemd`
+   units responsible for issuing/renewing a certificate and also monitor it for
+   expiry (controller).
 1. [cert-export-units.yml](#variables-for-cert-export-unitsyml): Sets up
    `systemd` units responsible for deploying a certificate on an SSL/TLS server
    and reload affected services.
@@ -166,10 +169,10 @@ Use this variables in custom `copy` or `template` tasks in order to populate
 value for `certhub_unit_prefix`. This variable needs to be set to one of the
 certhub service unit prefixes. The following values are currently valid:
 
-- certhub-certbot-run
 - certhub-cert-expiry
 - certhub-cert-export
 - certhub-cert-reload
+- certhub-certbot-run
 - certhub-dehydrated-run
 - certhub-lego-run
 
@@ -197,6 +200,20 @@ certhub_cert_slug: "{{ inventory_hostname }}"
 certhub_cert_expiry_path_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
 certhub_cert_expiry_timer_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
 certhub_certbot_run_path_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.path"
+```
+
+Set `certhub_cert_slug` in order to specify the certificate instance.
+
+### Variables for lego-run-units.yml
+
+Available variables are listed below, along with default values (see `defaults/main.yml`):
+
+```
+certhub_cert_slug: "{{ inventory_hostname }}"
+
+certhub_cert_expiry_path_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
+certhub_cert_expiry_timer_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
+certhub_lego_run_path_unit: "certhub-lego-run@{{ certhub_cert_slug }}.path"
 ```
 
 Set `certhub_cert_slug` in order to specify the certificate instance.
