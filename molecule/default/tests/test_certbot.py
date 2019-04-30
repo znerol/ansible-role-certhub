@@ -41,9 +41,50 @@ def test_certbot_issues_cert(host, link_nginx_config):
     service_name = "certhub-certbot-run@{:s}.service".format(cert_slug)
     controller.run_expect([0], "systemctl start %s", service_name)
 
-    # Ensure there are no failed units on server and controller
-    host.run_expect([0], "systemctl --quiet is-system-running")
-    controller.run_expect([0], "systemctl --quiet is-system-running")
+    # Retrieve pebble root certificate to the controller.
+    ca_url = "https://pebble:14000/root"
+    ca_path = "/tmp/pebble-root.crt"
+    controller.run_expect([0], "curl --output %s %s", ca_path, ca_url)
+
+    # Check certificate created by the controller and deployed to the server.
+    server_url = "https://{:s}/".format(host_vars["inventory_hostname"])
+    controller.run_expect([0], "curl --cacert %s %s", ca_path, server_url)
+
+    # Ensure there are no failed units on the server.
+    host_units = [
+        'certhub-cert-export@{:s}'.format(cert_slug),
+        'certhub-cert-reload@{:s}'.format(cert_slug),
+        'nginx',
+    ]
+    for pattern in host_units:
+        host.run_expect([1], "systemctl --quiet is-failed %s", pattern)
+
+    # Ensure there are no failed units on the controller.
+    controller_units = [
+        'certhub-cert-expiry@{:s}'.format(cert_slug),
+        'certhub-certbot-run@{:s}'.format(cert_slug),
+        'certhub-repo-push',
+    ]
+    for pattern in controller_units:
+        controller.run_expect([1], "systemctl --quiet is-failed %s", pattern)
+
+
+def test_lego_issues_cert(host, link_nginx_config):
+    host_vars = host.ansible.get_variables()
+    cert_slug = "{:s}-lego-test.ci.certhub.io".format(
+        host_vars["inventory_hostname"]
+    )
+    controller = host.get_host("ansible://{:s}?ansible_inventory={:s}".format(
+        host_vars["molecule_certhub_controller"],
+        os.environ["MOLECULE_INVENTORY_FILE"]
+    ))
+
+    # Install nginx config.
+    link_nginx_config(host, cert_slug)
+
+    # Run lego once on controller.
+    service_name = "certhub-lego-run@{:s}.service".format(cert_slug)
+    controller.run_expect([0], "systemctl start %s", service_name)
 
     # Retrieve pebble root certificate to the controller.
     ca_url = "https://pebble:14000/root"
@@ -53,3 +94,21 @@ def test_certbot_issues_cert(host, link_nginx_config):
     # Check certificate created by the controller and deployed to the server.
     server_url = "https://{:s}/".format(host_vars["inventory_hostname"])
     controller.run_expect([0], "curl --cacert %s %s", ca_path, server_url)
+
+    # Ensure there are no failed units on the server.
+    host_units = [
+        'certhub-cert-export@{:s}'.format(cert_slug),
+        'certhub-cert-reload@{:s}'.format(cert_slug),
+        'nginx',
+    ]
+    for pattern in host_units:
+        host.run_expect([1], "systemctl --quiet is-failed %s", pattern)
+
+    # Ensure there are no failed units on the controller.
+    controller_units = [
+        'certhub-cert-expiry@{:s}'.format(cert_slug),
+        'certhub-lego-run@{:s}'.format(cert_slug),
+        'certhub-repo-push',
+    ]
+    for pattern in controller_units:
+        controller.run_expect([1], "systemctl --quiet is-failed %s", pattern)
