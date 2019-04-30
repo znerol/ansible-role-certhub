@@ -3,11 +3,12 @@
   become: yes
   become_user: root
   vars:
-    tls_cnf_path: "/etc/certhub/{{ inventory_hostname }}.cnf"
-    tls_csr_cn: "{{ inventory_hostname }}"
-    tls_csr_path: "/etc/certhub/{{ inventory_hostname }}.csr.pem"
-    tls_key_path: "/etc/certhub/{{ inventory_hostname }}.key.pem"
-    tls_cert_path: "/var/lib/certhub/certs/{{ inventory_hostname }}.fullchain.pem"
+    tls_cnf_path: "/etc/certhub/{{ tls_cert_slug }}.cnf"
+    tls_csr_cn: "{{ tls_cert_slug }}"
+    tls_csr_path: "/etc/certhub/{{ tls_cert_slug }}.csr.pem"
+    tls_nginx_conf_path: "/etc/certhub/{{ tls_cert_slug }}.nginx.conf"
+    tls_key_path: "/etc/certhub/{{ tls_cert_slug }}.key.pem"
+    tls_cert_path: "/var/lib/certhub/certs/{{ tls_cert_slug }}.fullchain.pem"
   block:
     - name: OpenSSL config present
       template:
@@ -65,7 +66,7 @@
         nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_pkg_mgr == 'yum' else '/var/www/html' }}"
       template:
         src: nginx.conf.j2
-        dest: /etc/nginx/nginx.conf
+        dest: "{{ tls_nginx_conf_path }}"
         owner: root
         group: root
         mode: 0644

@@ -49,7 +49,14 @@
     - import_role:
         name: sshserver
 
-    - import_role:
+    - vars:
+        tls_cert_slug: "{{ inventory_hostname }}"
+      import_role:
+        name: tlsserver
+
+    - vars:
+        tls_cert_slug: "{{ inventory_hostname }}-lego-test.ci.certhub.io"
+      import_role:
         name: tlsserver
 
     - name: Repo push units setup

@@ -1,31 +1,13 @@
-user {{ nginx_user }};
-worker_processes auto;
-pid /run/nginx.pid;
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    server_name _;
 
-events {
-    worker_connections 32;
-}
+    root {{ nginx_document_root }};
+    index index.nginx-debian.html index.html;
 
-http {
-    error_log stderr;
-    access_log stderr;
-
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
-
-    server {
-        listen 443 ssl default_server;
-        listen [::]:443 ssl default_server;
-        server_name _;
-
-        root {{ nginx_document_root }};
-        index index.nginx-debian.html index.html;
-
-        ssl_certificate {{ tls_cert_path }};
-        ssl_certificate_key {{ tls_key_path }};
-        ssl_session_cache shared:SSL:1m;
-        ssl_session_timeout 10m;
-        ssl_ciphers HIGH:!aNULL:!MD5;
-        ssl_prefer_server_ciphers on;
-    }
+    ssl_certificate {{ tls_cert_path }};
+    ssl_certificate_key {{ tls_key_path }};
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
 }
