@@ -17,14 +17,13 @@
         crt_update_cmd: >
           update-ca-trust extract
 
-    - name: Pebble CA downloaded
-      register: pebble_ca_download
-      get_url:
+    - name: Pebble CA present
+      register: pebble_ca_copy
+      copy:
         dest: "{{ crt_dest }}"
-        url: https://raw.githubusercontent.com/letsencrypt/pebble/v2.0.2/test/certs/pebble.minica.pem
-        checksum: sha256:ba84a61eedf42e2704520116af71cc53ead0e861f32cb93ea8fc5cca5ca5cc29
+        src: pebble.minica.pem
 
     - name: Pebble CA installed
-      when: pebble_ca_download is changed
+      when: pebble_ca_copy is changed
       command: >
         {{ crt_update_cmd }}
