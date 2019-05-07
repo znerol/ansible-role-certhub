@@ -10,8 +10,7 @@ lint:
 
 platforms:
   - name: debian-node
-    image: debian
-    dockerfile: Dockerfile-systemd.j2
+    image: znerolmolecule/molecule-prebuilt:debian-systemd
     override_command: no
     tty: yes
     capabilities:
@@ -32,8 +31,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: ubuntu-node
-    image: ubuntu
-    dockerfile: Dockerfile-systemd.j2
+    image: znerolmolecule/molecule-prebuilt:ubuntu-systemd
     override_command: no
     tty: yes
     capabilities:
@@ -54,8 +52,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: centos-node
-    image: centos
-    dockerfile: Dockerfile-systemd.j2
+    image: znerolmolecule/molecule-prebuilt:centos-systemd
     override_command: no
     tty: yes
     capabilities:
@@ -76,8 +73,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: debian-controller
-    image: debian
-    dockerfile: Dockerfile-systemd.j2
+    image: znerolmolecule/molecule-prebuilt:debian-systemd
     override_command: no
     tty: yes
     capabilities:
@@ -96,8 +92,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: ubuntu-controller
-    image: ubuntu
-    dockerfile: Dockerfile-systemd.j2
+    image: znerolmolecule/molecule-prebuilt:ubuntu-systemd
     override_command: no
     tty: yes
     capabilities:
@@ -116,8 +111,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: centos-controller
-    image: centos
-    dockerfile: Dockerfile-systemd.j2
+    image: znerolmolecule/molecule-prebuilt:centos-systemd
     override_command: no
     tty: yes
     capabilities:
