@@ -6,6 +6,10 @@ language: python
 services:
   - docker
 
+env:
+  global:
+    - ANSIBLE_PIPELINING=yes
+
 install:
   - pip install molecule docker
 
