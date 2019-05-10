@@ -30,9 +30,6 @@
         name: lego
 
     - import_role:
-        name: sshkey
-
-    - import_role:
         name: pebble-ca
 
     - import_role:
@@ -48,6 +45,21 @@
   tasks:
     - import_role:
         name: sshserver
+
+    - name: Regather facts
+      delegate_to: "{{ item }}"
+      delegate_facts: yes
+      loop:
+        - "{{ inventory_hostname }}"
+        - "{{ molecule_certhub_controller }}"
+      setup:
+
+    - vars:
+        ssh_kba_client_hostname: "{{ molecule_certhub_controller }}"
+        ssh_kba_client_user: certhub
+        ssh_kba_server_user: certhub
+      import_role:
+        name: znerol.ssh_kba
 
     - vars:
         tls_cert_slug: "{{ inventory_hostname }}"
