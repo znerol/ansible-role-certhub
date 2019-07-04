@@ -54,8 +54,10 @@ certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
 # cert-*.yml
 certhub_cert_slug: "{{ inventory_hostname }}"
 certhub_cert_services: []
+certhub_cert_destinations: []
 certhub_cert_csr_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.csr.pem"
 certhub_cert_reload_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.services-reload.txt"
+certhub_cert_send_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.destinations-send.txt"
 certhub_certbot_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug}}.certbot.ini"
 certhub_dehydrated_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug}}.dehydrated.conf"
 
@@ -66,6 +68,8 @@ certhub_cert_export_path_unit: "certhub-cert-export@{{ certhub_cert_slug }}.path
 certhub_cert_export_service_unit: "certhub-cert-export@{{ certhub_cert_slug }}.service"
 certhub_cert_reload_path_unit: "certhub-cert-reload@{{ certhub_cert_slug }}.path"
 certhub_cert_reload_service_unit: "certhub-cert-reload@{{ certhub_cert_slug }}.service"
+certhub_cert_send_path_unit: "certhub-cert-send@{{ certhub_cert_slug }}.path"
+certhub_cert_send_service_unit: "certhub-cert-send@{{ certhub_cert_slug }}.service"
 certhub_certbot_run_path_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.path"
 certhub_certbot_run_service_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.service"
 certhub_dehydrated_run_path_unit: "certhub-dehydrated-run@{{ certhub_cert_slug }}.path"

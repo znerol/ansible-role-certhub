@@ -53,8 +53,9 @@ of certificates.
    units responsible for issuing/renewing a certificate and also monitor it for
    expiry (controller).
 1. [cert-export-units.yml](#variables-for-cert-export-unitsyml): Sets up
-   `systemd` units responsible for deploying a certificate on an SSL/TLS server
-   and reload affected services.
+   `systemd` units responsible for deploying a certificate on an SSL/TLS server,
+   reload affected services and/or send the certificates to specified
+   destinations.
 
 ### Variables for certhub-system-setup.yml
 
@@ -172,6 +173,7 @@ certhub service unit prefixes. The following values are currently valid:
 - certhub-cert-expiry
 - certhub-cert-export
 - certhub-cert-reload
+- certhub-cert-send
 - certhub-certbot-run
 - certhub-dehydrated-run
 - certhub-lego-run
@@ -225,16 +227,24 @@ Available variables are listed below, along with default values (see `defaults/m
 ```
 certhub_cert_slug: "{{ inventory_hostname }}"
 
+certhub_cert_export_path_unit: "certhub-cert-export@{{ certhub_cert_slug }}.path"
+
 certhub_cert_services: []
 
-certhub_cert_export_path_unit: "certhub-cert-export@{{ certhub_cert_slug }}.path"
 certhub_cert_reload_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.services-reload.txt"
 certhub_cert_reload_path_unit: "certhub-cert-reload@{{ certhub_cert_slug }}.path"
+
+certhub_cert_destinations: []
+
+certhub_cert_send_config_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.destinations-send.txt"
+certhub_cert_send_path_unit: "certhub-cert-send@{{ certhub_cert_slug }}.path"
 ```
 
 Set `certhub_cert_slug` in order to specify the certificate instance. A list of
 systemd service units which should be reloaded whenever the certificate
-instance changes can be specified using `certhub_cert_services`.
+instance changes can be specified using `certhub_cert_services`. A list of
+destinations where the certificate should be sent to can be specified in
+`certhub_cert_destinations`.
 
 Dependencies
 ------------
