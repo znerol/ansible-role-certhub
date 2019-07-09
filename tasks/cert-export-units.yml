@@ -1,5 +1,5 @@
 ---
-- name: Certificate export and reload units configured
+- name: Certificate export, send and reload units configured
   become: yes
   become_user: root
   block:
@@ -28,5 +28,27 @@
       when: certhub_cert_services | length == 0
       systemd:
         name: "{{ certhub_cert_reload_path_unit }}"
+        enabled: no
+        state: stopped
+
+    - name: Certificate send destinations present
+      copy:
+        content: "{{ certhub_cert_destinations | join('\n') }}"
+        dest: "{{ certhub_cert_send_config_path }}"
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Certificate send path units enabled and started
+      when: certhub_cert_destinations | length > 0
+      systemd:
+        name: "{{ certhub_cert_send_path_unit }}"
+        enabled: yes
+        state: started
+
+    - name: Certificate send path unit stopped and disabled
+      when: certhub_cert_destinations | length == 0
+      systemd:
+        name: "{{ certhub_cert_send_path_unit }}"
         enabled: no
         state: stopped

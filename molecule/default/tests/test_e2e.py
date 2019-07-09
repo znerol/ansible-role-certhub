@@ -55,6 +55,7 @@ def test_certbot_issues_cert(host, link_nginx_config):
     host_units = [
         'certhub-cert-export@{:s}'.format(cert_slug),
         'certhub-cert-reload@{:s}'.format(cert_slug),
+        'certhub-cert-send@{:s}'.format(cert_slug),
         'nginx',
     ]
     for pattern in host_units:
@@ -101,6 +102,7 @@ def test_lego_issues_cert(host, link_nginx_config):
     host_units = [
         'certhub-cert-export@{:s}'.format(cert_slug),
         'certhub-cert-reload@{:s}'.format(cert_slug),
+        'certhub-cert-send@{:s}'.format(cert_slug),
         'nginx',
     ]
     for pattern in host_units:
