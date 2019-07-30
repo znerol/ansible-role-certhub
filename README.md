@@ -88,6 +88,8 @@ certhub_private_dir_path: "{{ certhub_home_dir_path }}/private"
 certhub_private_dir_owner: "{{ certhub_user_name }}"
 certhub_private_dir_group: "{{ certhub_user_group }}"
 certhub_private_dir_mode: 0700
+
+certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
 ```
 
 ### Variables for certhub-software-setup.yml
@@ -126,9 +128,12 @@ certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 ```
-certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
+certhub_repo_init_path: "{{ certhub_repo_path }}"
 certhub_repo_init_message: Init
 ```
+
+Git repository setup is skipped when `certhub_repo_init_path` is the the empty
+string.
 
 ### Variables for certbot-noroot-config.yml
 

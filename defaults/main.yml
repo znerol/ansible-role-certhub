@@ -39,6 +39,8 @@ certhub_private_dir_group: "{{ certhub_user_group }}"
 certhub_private_dir_mode: 0700
 
 certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
+
+certhub_repo_init_path: "{{ certhub_repo_path }}"
 certhub_repo_init_message: Init
 
 certhub_repo_push_user: "{{ certhub_user_name }}"
