@@ -3,15 +3,24 @@
   become: yes
   become_user: "{{ certhub_user_name }}"
   block:
-    - name: Certhub local repository present
-      register: certhub_repo_init
+    - name: Certhub local repository cloned
+      when: certhub_repo_init_url != ""
       args:
         creates: "{{ certhub_repo_path }}"
       command: >
-        git init --bare "{{ certhub_repo_path | quote }}"
+        git clone --bare "{{ certhub_repo_init_url | quote }}"
 
-    - name: Certhub local repository initialized
-      when: certhub_repo_init is changed
-      command: >
-        git gau-exec "{{ certhub_repo_path | quote }}"
-        git commit --allow-empty --message="{{ certhub_repo_init_message | quote }}"
+    - when: certhub_repo_init_url == ""
+      block:
+        - name: Certhub local repository present
+          register: certhub_repo_init
+          args:
+            creates: "{{ certhub_repo_path }}"
+          command: >
+            git init --bare "{{ certhub_repo_path | quote }}"
+
+        - name: Certhub local repository initialized
+          when: certhub_repo_init is changed
+          command: >
+            git gau-exec "{{ certhub_repo_path | quote }}"
+            git commit --allow-empty --message="{{ certhub_repo_init_message | quote }}"

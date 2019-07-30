@@ -128,7 +128,12 @@ Available variables are listed below, along with default values (see `defaults/m
 ```
 certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
 certhub_repo_init_message: Init
+certhub_repo_init_url: ""
 ```
+
+If `certhub_repo_init_url` is set, then the remote repository will be cloned in
+order to initialize the local certs repository. Otherwise, a new repository
+will be initialized with `certhub_repo_init_message` as the commit message.
 
 ### Variables for certbot-noroot-config.yml
 
