@@ -1,3 +1,4 @@
+import math
 import os
 import pytest
 
@@ -26,6 +27,23 @@ def link_nginx_config():
         host.run_expect([0], "rm -f %s", nginx_config_dest)
 
 
+def _run_expect_retry(host, attempts, expected, command, *args, **kwds):
+    __tracebackhide__ = True  # pylint: disable=unused-variable
+
+    for i in range(0, attempts):
+        out = host.run(command, *args, **kwds)
+        if out.rc in expected:
+            break
+        else:
+            backoff = math.pow(i, 2) / 4
+            host.run("sleep %s", backoff)
+
+    assert out.rc in expected, (
+        'Unexpected exit code %s for %s' % (out.rc, out))
+
+    return out
+
+
 def test_certbot_issues_cert(host, link_nginx_config):
     host_vars = host.ansible.get_variables()
     hostname = host_vars["inventory_hostname"]
@@ -45,11 +63,13 @@ def test_certbot_issues_cert(host, link_nginx_config):
     # Retrieve pebble root certificate to the controller.
     ca_url = "https://pebble:14000/root"
     ca_path = "/tmp/pebble-root.crt"
-    controller.run_expect([0], "curl --output %s %s", ca_path, ca_url)
+    _run_expect_retry(controller, 5, [0], "curl --fail --output %s %s",
+                      ca_path, ca_url)
 
     # Check certificate created by the controller and deployed to the server.
     server_url = "https://{:s}/".format(hostname)
-    controller.run_expect([0], "curl --cacert %s %s", ca_path, server_url)
+    _run_expect_retry(controller, 5, [0], "curl --fail --cacert %s %s",
+                      ca_path, server_url)
 
     # Ensure there are no failed units on the server.
     host_units = [
@@ -92,11 +112,13 @@ def test_lego_issues_cert(host, link_nginx_config):
     # Retrieve pebble root certificate to the controller.
     ca_url = "https://pebble:14000/root"
     ca_path = "/tmp/pebble-root.crt"
-    controller.run_expect([0], "curl --output %s %s", ca_path, ca_url)
+    _run_expect_retry(controller, 5, [0], "curl --fail --output %s %s",
+                      ca_path, ca_url)
 
     # Check certificate created by the controller and deployed to the server.
     server_url = "https://{:s}/".format(hostname)
-    controller.run_expect([0], "curl --cacert %s %s", ca_path, server_url)
+    _run_expect_retry(controller, 5, [0], "curl --fail --cacert %s %s",
+                      ca_path, server_url)
 
     # Ensure there are no failed units on the server.
     host_units = [
