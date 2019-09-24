@@ -97,7 +97,7 @@ certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 ```
-certhub_certhub_version: v1.0.0-beta9
+certhub_certhub_version: v1.0.0
 certhub_certhub_checksum: "{{ certhub_certhub_releases[certhub_certhub_version]['checksum'] }}"
 certhub_certhub_url: "{{ certhub_certhub_releases[certhub_certhub_version]['url'] }}"
 certhub_certhub_prefix: /usr/local
