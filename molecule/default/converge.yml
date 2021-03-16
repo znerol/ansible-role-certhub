@@ -14,7 +14,7 @@
         state: present
 
     - import_role:
-        name: sudo-secure-path
+        name: sudo_secure_path
 
     - import_role:
         name: ansible-role-certhub
@@ -30,10 +30,10 @@
         name: lego
 
     - import_role:
-        name: pebble-ca
+        name: pebble_ca
 
     - import_role:
-        name: testsrv-hooks
+        name: testsrv_hooks
 
     - import_role:
         name: ansible-role-certhub

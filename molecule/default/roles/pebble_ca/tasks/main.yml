@@ -1,6 +1,6 @@
 ---
 - name: Pebble CA setup
-  become: yes
+  become: true
   become_user: root
   block:
     - name: CA Locations and Commands on Debian/Ubuntu detected
@@ -22,6 +22,9 @@
       copy:
         dest: "{{ crt_dest }}"
         src: pebble.minica.pem
+        owner: root
+        group: root
+        mode: 0644
 
     - name: Pebble CA installed
       when: pebble_ca_copy is changed
