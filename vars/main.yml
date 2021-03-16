@@ -27,6 +27,12 @@ certhub_certhub_releases:
     url: https://github.com/certhub/certhub/releases/download/v1.0.0-beta2/certhub-dist.tar.gz
 
 certhub_gitgau_releases:
+  v1.3.0:
+    checksum: sha256:899d5c3ef81f9a11edaf3b6ed1dcd70fa8d004398b773243fec3ba77a310b01c
+    url: https://github.com/znerol/git-gau/releases/download/v1.3.0/git-gau-dist.tar.gz
+  v1.2.1:
+    checksum: sha256:07b8340e7b5b7f6a7b2a8ecb44df2d964126be58ee2a21cd8b71e19878402464
+    url: https://github.com/znerol/git-gau/releases/download/v1.2.1/git-gau-dist.tar.gz
   v1.1.0:
     checksum: sha256:a5f02e4989706948f6cc903883e39a25c8e6d6efd4a72dfc34e3e34013c2082a
     url: https://github.com/znerol/git-gau/releases/download/v1.1.0/git-gau-dist.tar.gz
