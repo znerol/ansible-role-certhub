@@ -11,7 +11,7 @@
           update-ca-certificates
 
     - name: CA Locations and Commands on Centos detected
-      when: ansible_pkg_mgr == 'yum'
+      when: ansible_pkg_mgr == 'dnf'
       set_fact:
         crt_dest: /etc/pki/ca-trust/source/anchors/pebble-ca.crt
         crt_update_cmd: >
