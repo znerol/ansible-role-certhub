@@ -103,7 +103,7 @@ certhub_certhub_url: "{{ certhub_certhub_releases[certhub_certhub_version]['url'
 certhub_certhub_prefix: /usr/local
 certhub_certhub_archive_path: "{{ certhub_private_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
 
-certhub_gitgau_version: v1.1.0
+certhub_gitgau_version: v1.3.0
 certhub_gitgau_checksum: "{{ certhub_gitgau_releases[certhub_gitgau_version]['checksum'] }}"
 certhub_gitgau_url: "{{ certhub_gitgau_releases[certhub_gitgau_version]['url'] }}"
 certhub_gitgau_prefix: /usr/local
