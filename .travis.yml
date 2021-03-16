@@ -19,6 +19,9 @@ install:
 script:
   - molecule --version
   - ansible --version
+  - yamllint .
+  - ansible-lint -v .
+  - flake8
   - molecule test
 
 notifications:
