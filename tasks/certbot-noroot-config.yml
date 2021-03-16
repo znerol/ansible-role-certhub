@@ -8,9 +8,6 @@
         path: "{{ certhub_certbot_cli_ini_path | dirname }}"
         state: directory
         recurse: yes
-        owner: "{{ certhub_user_name }}"
-        group: "{{ certhub_user_name }}"
-        mode: 0755
 
     - name: Certbot config file present
       copy:
@@ -20,6 +17,3 @@
           logs-dir={{ certhub_certbot_logs_dir }}
           config-dir={{ certhub_certbot_config_dir }}
           {{ certhub_certbot_cli_ini_content }}
-        owner: "{{ certhub_user_name }}"
-        group: "{{ certhub_user_name }}"
-        mode: 0644
