@@ -264,13 +264,12 @@ Example Playbook
       hosts: certhub-controller
       tasks:
         - name: Certhub dependencies present
-          loop:
-            - certbot
-            - git
-            - lexicon
-            - openssl
           package:
-            name: "{{ item }}"
+            name:
+              - certbot
+              - git
+              - lexicon
+              - openssl
             state: present
 
         - name: Certhub present
@@ -281,11 +280,10 @@ Example Playbook
       hosts: tls-server
       tasks:
         - name: Certhub dependencies present
-          loop:
-            - git
-            - openssl
           package:
-            name: "{{ item }}"
+            name:
+              - git
+              - openssl
             state: present
 
         - name: Certhub present
@@ -295,7 +293,7 @@ Example Playbook
         - name: Repo push units setup
           delegate_to: name-of-certhub-controller
           import_role:
-            name: ansible-role-certhub
+            name: znerol.certhub
             tasks_from: repo-push-units.yml
 
     - name: TLS Certificate Configuration
@@ -305,13 +303,13 @@ Example Playbook
             certhub_cert_services:
               - nginx
           import_role:
-            name: ansible-role-certhub
+            name: znerol.certhub
             tasks_from: cert-export-units.yml
 
         - name: Certbot run units setup
           delegate_to: name-of-certhub-controller
           import_role:
-            name: ansible-role-certhub
+            name: znerol.certhub
             tasks_from: certbot-run-units.yml
 
         - name: Certbot CSR installed

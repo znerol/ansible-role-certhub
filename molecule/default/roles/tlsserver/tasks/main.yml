@@ -1,6 +1,6 @@
 ---
 - name: TLS Server setup
-  become: yes
+  become: true
   become_user: root
   vars:
     tls_cnf_path: "/etc/certhub/{{ tls_cert_slug }}.cnf"
@@ -29,8 +29,8 @@
 
     - name: TLS Cert request generated
       register: cert_csr
-      changed_when: no
-      check_mode: no
+      changed_when: false
+      check_mode: false
       command: >
         openssl req -new -batch
         -config "{{ tls_cnf_path }}"
@@ -42,9 +42,12 @@
       copy:
         dest: "{{ tls_csr_path }}"
         content: "{{ cert_csr.stdout }}"
+        owner: root
+        group: root
+        mode: 0644
 
     - name: EPEL repo present
-      when: ansible_pkg_mgr == 'yum'
+      when: ansible_pkg_mgr == 'dnf'
       package:
         name: epel-release
         state: present
@@ -62,8 +65,8 @@
 
     - name: NGINX config present
       vars:
-        nginx_user: "{{ 'nginx' if ansible_pkg_mgr == 'yum' else 'www-data' }}"
-        nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_pkg_mgr == 'yum' else '/var/www/html' }}"
+        nginx_user: "{{ 'nginx' if ansible_pkg_mgr == 'dnf' else 'www-data' }}"
+        nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_pkg_mgr == 'dnf' else '/var/www/html' }}"
       template:
         src: nginx.conf.j2
         dest: "{{ tls_nginx_conf_path }}"
