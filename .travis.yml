@@ -6,6 +6,8 @@ language: python
 services:
   - docker
 
+cache: pip
+
 env:
   global:
     - ANSIBLE_PIPELINING=yes
