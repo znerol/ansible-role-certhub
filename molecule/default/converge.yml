@@ -16,7 +16,7 @@
         name: sudo_secure_path
 
     - import_role:
-        name: ansible-role-certhub
+        name: znerol.certhub
 
 
 - name: Controller Setup
@@ -35,7 +35,7 @@
         name: testsrv_hooks
 
     - import_role:
-        name: ansible-role-certhub
+        name: znerol.certhub
         tasks_from: certbot-noroot-config.yml
 
 
@@ -73,7 +73,7 @@
     - name: Repo push units setup
       delegate_to: "{{ molecule_certhub_controller }}"
       import_role:
-        name: ansible-role-certhub
+        name: znerol.certhub
         tasks_from: repo-push-units.yml
 
 
@@ -86,7 +86,7 @@
         certhub_cert_services:
           - nginx
       import_role:
-        name: ansible-role-certhub
+        name: znerol.certhub
         tasks_from: cert-export-units.yml
 
     - name: Certbot controller cert setup
@@ -96,7 +96,7 @@
       block:
         - name: Certbot run units setup
           import_role:
-            name: ansible-role-certhub
+            name: znerol.certhub
             tasks_from: certbot-run-units.yml
 
         - name: Certbot config installed
@@ -136,7 +136,7 @@
         certhub_cert_services:
           - nginx
       import_role:
-        name: ansible-role-certhub
+        name: znerol.certhub
         tasks_from: cert-export-units.yml
 
     - name: Lego controller cert setup
@@ -148,7 +148,7 @@
         - name: Lego run units setup
           vars:
           import_role:
-            name: ansible-role-certhub
+            name: znerol.certhub
             tasks_from: lego-run-units.yml
 
         - name: Lego unit environment configured
