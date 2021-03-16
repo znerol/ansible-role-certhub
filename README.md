@@ -264,13 +264,12 @@ Example Playbook
       hosts: certhub-controller
       tasks:
         - name: Certhub dependencies present
-          loop:
-            - certbot
-            - git
-            - lexicon
-            - openssl
           package:
-            name: "{{ item }}"
+            name:
+              - certbot
+              - git
+              - lexicon
+              - openssl
             state: present
 
         - name: Certhub present
@@ -281,11 +280,10 @@ Example Playbook
       hosts: tls-server
       tasks:
         - name: Certhub dependencies present
-          loop:
-            - git
-            - openssl
           package:
-            name: "{{ item }}"
+            name:
+              - git
+              - openssl
             state: present
 
         - name: Certhub present

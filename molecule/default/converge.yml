@@ -5,12 +5,11 @@
     - name: Git and OpenSSL present
       become: yes
       become_user: root
-      loop:
-        - git
-        - openssl
-        - rsync
       package:
-        name: "{{ item }}"
+        name:
+          - git
+          - openssl
+          - rsync
         state: present
 
     - import_role:

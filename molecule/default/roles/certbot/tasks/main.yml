@@ -4,7 +4,7 @@
   become_user: root
   block:
     - name: EPEL repo present
-      when: ansible_pkg_mgr == 'yum'
+      when: ansible_pkg_mgr == 'dnf'
       package:
         name: epel-release
         state: present
@@ -16,8 +16,7 @@
         codename: "{{ ansible_distribution_release }}"
 
     - name: Certbot present
-      loop:
-        - certbot
       package:
-        name: "{{ item }}"
+        name:
+          - certbot
         state: present
