@@ -1,6 +1,6 @@
 ---
-dist: bionic
-
+os: linux
+dist: focal
 language: python
 
 services:
