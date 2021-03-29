@@ -4,13 +4,13 @@
   become_user: "{{ certhub_user_name }}"
   block:
     - name: Git user name configured
-      git_config:
+      community.general.git_config:
         name: user.name
         scope: global
         value: '{{ certhub_git_user_name }}'
 
     - name: Git user email configured
-      git_config:
+      community.general.git_config:
         name: user.email
         scope: global
         value: '{{ certhub_git_user_email }}'
