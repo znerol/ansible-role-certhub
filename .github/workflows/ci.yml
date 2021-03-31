@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install yamllint ansible-lint flake8
-        run: sudo python3 -m pip install ansible-lint yamllint flake8
+        run: sudo python3 -m pip install -U ansible-lint yamllint flake8
 
       - name: Run yamllint
         run: yamllint .
@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install molecule docker
-        run: sudo python3 -m pip install ansible 'molecule[docker]' pytest-testinfra
+        run: sudo python3 -m pip install -U ansible 'molecule[docker]' pytest-testinfra
 
       - name: Run molecule
         run: molecule test
