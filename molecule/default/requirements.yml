@@ -1,2 +1,5 @@
 ---
-- src: znerol.ssh_kba
+collections:
+  - name: community.general
+roles:
+  - name: znerol.ssh_kba
