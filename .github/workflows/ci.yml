@@ -1,0 +1,57 @@
+---
+name: CI
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  ANSIBLE_PIPELINING: "yes"
+  ANSIBLE_FORKS: "16"
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install yamllint ansible-lint flake8
+        run: sudo python3 -m pip install ansible-lint yamllint flake8
+
+      - name: Run yamllint
+        run: yamllint .
+
+      - name: Run ansible-lint
+        run: ansible-lint -v .
+
+      - name: Run flake8
+        run: flake8
+
+  integration:
+    name: Integration Test
+    runs-on: ubuntu-latest
+
+    needs:
+      - lint
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install molecule docker
+        run: sudo python3 -m pip install ansible 'molecule[docker]' pytest-testinfra
+
+      - name: Run molecule
+        run: molecule test
