@@ -27,8 +27,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install yamllint ansible-lint flake8
-        run: sudo python3 -m pip install ansible-lint yamllint flake8
+      - name: Remove ansible
+        run: sudo apt-get --purge --autoremove --yes remove "*ansible*"
+
+      - name: Install ansible ansible-lint yamllint flake8
+        run: sudo python3 -m pip install ansible ansible-lint yamllint flake8
 
       - name: Run yamllint
         run: yamllint .
@@ -49,6 +52,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Remove ansible
+        run: sudo apt-get --purge --autoremove --yes remove "*ansible*"
 
       - name: Install molecule docker
         run: sudo python3 -m pip install ansible 'molecule[docker]' pytest-testinfra
