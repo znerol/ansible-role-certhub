@@ -8,7 +8,6 @@
         path: "{{ certhub_certbot_cli_ini_path | dirname }}"
         state: directory
         recurse: yes
-        mode: 0755
 
     - name: Certbot config file present
       copy:
