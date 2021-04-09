@@ -1,6 +1,6 @@
 ---
 - name: Update package index
-  hosts: all
+  hosts: controller:server
   tasks:
     - name: Package index up to date
       become: yes
