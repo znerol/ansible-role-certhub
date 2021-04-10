@@ -10,16 +10,12 @@ platforms:
     image: znerolmolecule/molecule-prebuilt:debian-systemd
     override_command: no
     tty: yes
-    capabilities:
-      - SYS_ADMIN
     networks:
       - name: molecule-certhub
         aliases:
           - debian-node-lego-test.ci.certhub.io
     groups:
       - server
-    security_opts:
-      - seccomp=unconfined
     stop-signal: SIGRTMIN+3
     tmpfs:
       - /run
@@ -31,16 +27,12 @@ platforms:
     image: znerolmolecule/molecule-prebuilt:ubuntu-systemd
     override_command: no
     tty: yes
-    capabilities:
-      - SYS_ADMIN
     networks:
       - name: molecule-certhub
         aliases:
           - ubuntu-node-lego-test.ci.certhub.io
     groups:
       - server
-    security_opts:
-      - seccomp=unconfined
     stop-signal: SIGRTMIN+3
     tmpfs:
       - /run
@@ -52,16 +44,12 @@ platforms:
     image: znerolmolecule/molecule-prebuilt:centos-systemd
     override_command: no
     tty: yes
-    capabilities:
-      - SYS_ADMIN
     networks:
       - name: molecule-certhub
         aliases:
           - centos-node-lego-test.ci.certhub.io
     groups:
       - server
-    security_opts:
-      - seccomp=unconfined
     stop-signal: SIGRTMIN+3
     tmpfs:
       - /run
@@ -73,14 +61,10 @@ platforms:
     image: znerolmolecule/molecule-prebuilt:debian-systemd
     override_command: no
     tty: yes
-    capabilities:
-      - SYS_ADMIN
     networks:
       - name: molecule-certhub
     groups:
       - controller
-    security_opts:
-      - seccomp=unconfined
     stop-signal: SIGRTMIN+3
     tmpfs:
       - /run
@@ -92,14 +76,10 @@ platforms:
     image: znerolmolecule/molecule-prebuilt:ubuntu-systemd
     override_command: no
     tty: yes
-    capabilities:
-      - SYS_ADMIN
     networks:
       - name: molecule-certhub
     groups:
       - controller
-    security_opts:
-      - seccomp=unconfined
     stop-signal: SIGRTMIN+3
     tmpfs:
       - /run
@@ -111,14 +91,10 @@ platforms:
     image: znerolmolecule/molecule-prebuilt:centos-systemd
     override_command: no
     tty: yes
-    capabilities:
-      - SYS_ADMIN
     networks:
       - name: molecule-certhub
     groups:
       - controller
-    security_opts:
-      - seccomp=unconfined
     stop-signal: SIGRTMIN+3
     tmpfs:
       - /run
