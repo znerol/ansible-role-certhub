@@ -64,5 +64,10 @@ jobs:
       - integration
 
     steps:
-      - name: Ansible Galaxy Import
-        run: ansible-galaxy role import --api-key "${GALAXY_API_KEY}" --role-name znerol.certhub znerol ansible-role-certhub
+      - name: Setup Ansible Galaxy Token
+        env:
+          ANSIBLE_GALAXY_TOKEN: "${{ secrets.ANSIBLE_GALAXY_TOKEN }}"
+        run: .github/scripts/setup-galaxy-token.sh
+
+      - name: Trigger Ansible Galaxy Import
+        run: ansible-galaxy role import --role-name znerol.certhub znerol ansible-role-certhub
