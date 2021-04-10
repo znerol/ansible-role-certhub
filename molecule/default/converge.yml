@@ -1,4 +1,14 @@
 ---
+- name: Update package index
+  hosts: controller:server
+  tasks:
+    - name: Package index up to date
+      become: yes
+      become_user: root
+      when: ansible_pkg_mgr == 'apt'
+      apt:
+        update_cache: yes
+
 - name: General Setup
   hosts: controller:server
   tasks:
