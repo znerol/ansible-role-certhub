@@ -55,3 +55,14 @@ jobs:
 
       - name: Run molecule
         run: molecule test
+
+  galaxy:
+    name: Ansible Galaxy Import
+    runs-on: ubuntu-latest
+
+    needs:
+      - integration
+
+    steps:
+      - name: Ansible Galaxy Import
+        run: ansible-galaxy role import --api-key "${GALAXY_API_KEY}" --role-name znerol.certhub znerol ansible-role-certhub
