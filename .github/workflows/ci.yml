@@ -64,6 +64,9 @@ jobs:
       - integration
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Setup Ansible Galaxy Token
         env:
           ANSIBLE_GALAXY_TOKEN: "${{ secrets.ANSIBLE_GALAXY_TOKEN }}"
