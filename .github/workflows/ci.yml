@@ -30,7 +30,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Install ansible ansible-lint yamllint flake8
         run: pip install ansible-core==2.14.* ansible-lint==5.* yamllint flake8
@@ -58,7 +58,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Install molecule docker
         run: pip install ansible-core==2.14.* 'molecule[docker]' pytest-testinfra
@@ -76,11 +76,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
 
       - name: Setup Ansible Galaxy Token
         env:
