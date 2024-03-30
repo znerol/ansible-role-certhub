@@ -204,7 +204,6 @@ Available variables are listed below, along with default values (see `defaults/m
 ```
 certhub_cert_slug: "{{ inventory_hostname }}"
 
-certhub_cert_expiry_path_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
 certhub_cert_expiry_timer_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
 certhub_certbot_run_path_unit: "certhub-certbot-run@{{ certhub_cert_slug }}.path"
 ```
@@ -218,7 +217,6 @@ Available variables are listed below, along with default values (see `defaults/m
 ```
 certhub_cert_slug: "{{ inventory_hostname }}"
 
-certhub_cert_expiry_path_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.path"
 certhub_cert_expiry_timer_unit: "certhub-cert-expiry@{{ certhub_cert_slug }}.timer"
 certhub_lego_run_path_unit: "certhub-lego-run@{{ certhub_cert_slug }}.path"
 ```
