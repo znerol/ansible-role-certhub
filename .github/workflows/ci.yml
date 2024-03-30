@@ -25,10 +25,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Install ansible ansible-lint yamllint flake8
-        run: sudo pipx inject --include-apps --include-deps ansible-base ansible-lint yamllint flake8
+        run: pip install ansible-core ansible-lint yamllint flake8
 
       - name: Run yamllint
         run: yamllint .
@@ -48,10 +53,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Install molecule docker
-        run: sudo pipx inject --include-apps --include-deps ansible-base 'molecule[docker]' pytest-testinfra
+        run: pip install ansible-core 'molecule[docker]' pytest-testinfra
 
       - name: Run molecule
         run: molecule test
@@ -65,7 +75,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Setup Ansible Galaxy Token
         env:
