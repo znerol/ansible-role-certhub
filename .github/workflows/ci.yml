@@ -61,7 +61,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install molecule docker
-        run: pip install ansible-core==2.14.* 'molecule[docker]==5.*' pytest-testinfra
+        run: pip install ansible-core==2.14.* 'molecule[docker]==4.*' pytest-testinfra
 
       - name: Run molecule
         run: molecule test
