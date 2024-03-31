@@ -61,7 +61,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install molecule docker
-        run: pip install ansible==7.* 'molecule[docker]==4.*' 'ansible-compat<4' pytest-testinfra
+        run: pip install 'ansible==7.*' 'molecule==5.*' 'molecule-plugins[podman]' pytest-testinfra
 
       - name: Run molecule
         run: molecule test

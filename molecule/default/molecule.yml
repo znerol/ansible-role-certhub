@@ -3,125 +3,87 @@ dependency:
   name: galaxy
 
 driver:
-  name: docker
+  name: podman
 
 platforms:
   - name: debian-node
-    image: znerolmolecule/molecule-prebuilt:debian-systemd
+    image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
+    pre_build_image: true
     override_command: no
     tty: yes
-    networks:
-      - name: molecule-certhub
-        aliases:
-          - debian-node-lego-test.ci.certhub.io
+    systemd: always
+    network: molecule-certhub
     groups:
       - server
-    stop-signal: SIGRTMIN+3
-    tmpfs:
-      - /run
-      - /run/lock
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: ubuntu-node
-    image: znerolmolecule/molecule-prebuilt:ubuntu-systemd
+    image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
+    pre_build_image: true
     override_command: no
     tty: yes
-    networks:
-      - name: molecule-certhub
-        aliases:
-          - ubuntu-node-lego-test.ci.certhub.io
+    systemd: always
+    network: molecule-certhub
     groups:
       - server
-    stop-signal: SIGRTMIN+3
-    tmpfs:
-      - /run
-      - /run/lock
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: centos-node
-    image: znerolmolecule/molecule-prebuilt:centos-systemd
+    image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
+    pre_build_image: true
     override_command: no
     tty: yes
-    networks:
-      - name: molecule-certhub
-        aliases:
-          - centos-node-lego-test.ci.certhub.io
+    systemd: always
+    network: molecule-certhub
     groups:
       - server
-    stop-signal: SIGRTMIN+3
-    tmpfs:
-      - /run
-      - /run/lock
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: debian-controller
-    image: znerolmolecule/molecule-prebuilt:debian-systemd
+    image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
+    pre_build_image: true
     override_command: no
     tty: yes
-    networks:
-      - name: molecule-certhub
+    systemd: always
+    network: molecule-certhub
     groups:
       - controller
-    stop-signal: SIGRTMIN+3
-    tmpfs:
-      - /run
-      - /run/lock
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: ubuntu-controller
-    image: znerolmolecule/molecule-prebuilt:ubuntu-systemd
+    image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
+    pre_build_image: true
     override_command: no
     tty: yes
-    networks:
-      - name: molecule-certhub
+    systemd: always
+    network: molecule-certhub
     groups:
       - controller
-    stop-signal: SIGRTMIN+3
-    tmpfs:
-      - /run
-      - /run/lock
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: centos-controller
-    image: znerolmolecule/molecule-prebuilt:centos-systemd
+    image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
+    pre_build_image: true
     override_command: no
     tty: yes
-    networks:
-      - name: molecule-certhub
+    systemd: always
+    network: molecule-certhub
     groups:
       - controller
-    stop-signal: SIGRTMIN+3
-    tmpfs:
-      - /run
-      - /run/lock
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   - name: challtestsrv
-    image: letsencrypt/pebble-challtestsrv
+    image: docker.io/letsencrypt/pebble-challtestsrv
+    pre_build_image: true
     command: /usr/bin/pebble-challtestsrv
-    networks:
-      - name: molecule-certhub
+    network: molecule-certhub
 
   - name: pebble
-    image: letsencrypt/pebble:v1.0.1
+    image: docker.io/letsencrypt/pebble:v1.0.1
+    pre_build_image: true
     command: >
         /bin/sh -c
         "
-        NSENTRY=$$(getent hosts acmens) &&
+        NSENTRY=$$(getent hosts challtestsrv) &&
         exec /usr/bin/pebble
         -config /test/config/pebble-config.json
         -dnsserver $${NSENTRY%% *}:8053
         "
-    networks:
-      - name: molecule-certhub
-        links:
-          - challtestsrv:acmens
+    network: molecule-certhub
 
 provisioner:
   name: ansible
