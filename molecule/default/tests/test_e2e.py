@@ -35,7 +35,7 @@ def _run_expect_retry(host, attempts, expected, command, *args, **kwds):
         if out.rc in expected:
             break
         else:
-            backoff = math.pow(i, 2) / 4
+            backoff = str(math.pow(i, 2) / 4)
             host.run("sleep %s", backoff)
 
     assert out.rc in expected, (
