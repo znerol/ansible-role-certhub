@@ -13,6 +13,8 @@ platforms:
     tty: yes
     systemd: always
     network: molecule-certhub
+    extra_opts:
+      - '--network-alias=debian-node-lego-test.ci.certhub.io'
     groups:
       - server
 
@@ -23,6 +25,8 @@ platforms:
     tty: yes
     systemd: always
     network: molecule-certhub
+    extra_opts:
+      - '--network-alias=ubuntu-node-lego-test.ci.certhub.io'
     groups:
       - server
 
@@ -33,6 +37,8 @@ platforms:
     tty: yes
     systemd: always
     network: molecule-certhub
+    extra_opts:
+      - '--network-alias=centos-node-lego-test.ci.certhub.io'
     groups:
       - server
 
