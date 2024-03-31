@@ -65,10 +65,11 @@ jobs:
 
       - name: Upgrade podman
         run: |
-          sudo apt-get --purge remove --yes podman && sudo apt-get --purge autoremove --yes
-          sudo tee --append /etc/apt/sources.list.d/mantic.list < .github/files/apt/mantic.list
-          sudo tee --append /etc/apt/preferences < .github/files/apt/preferences
-          sudo apt-get update && sudo apt-get install --yes podman
+          sudo apt-get --purge remove --yes buildah conmon crun podman slirp4netns && sudo apt-get --purge autoremove --yes && sudo rm -rf /etc/cni
+          curl -fsSL -o /tmp/podman-linux-amd64.tar.gz 'https://github.com/mgoltzsche/podman-static/releases/latest/download/podman-linux-amd64.tar.gz'
+          sudo tar --strip-components=1 -C / -xf /tmp/podman-linux-amd64.tar.gz podman-linux-amd64/etc podman-linux-amd64/usr
+          hash -r
+          podman --version
 
       - name: Run molecule
         run: molecule test

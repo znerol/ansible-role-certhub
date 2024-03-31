@@ -1,4 +1,0 @@
-deb http://archive.ubuntu.com/ubuntu/ mantic main restricted
-deb http://archive.ubuntu.com/ubuntu/ mantic universe
-deb http://security.ubuntu.com/ubuntu/ mantic-security main restricted
-deb http://security.ubuntu.com/ubuntu/ mantic-security universe
