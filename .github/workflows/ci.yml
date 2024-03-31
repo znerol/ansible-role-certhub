@@ -63,6 +63,11 @@ jobs:
       - name: Install molecule docker
         run: pip install 'ansible==7.*' 'molecule==5.*' 'molecule-plugins[podman]' pytest-testinfra
 
+      - name: Patch crun
+        run: |
+          curl -fsSL -o crun https://github.com/containers/crun/releases/download/1.14.4/crun-1.14.4-linux-amd64
+          sudo install -m 0755 -o root -g root crun /usr/bin/crun
+
       - name: Run molecule
         run: molecule test
 
