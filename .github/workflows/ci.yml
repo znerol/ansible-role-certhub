@@ -14,10 +14,6 @@ on:
       - main
       - develop
 
-env:
-  ANSIBLE_PIPELINING: "yes"
-  ANSIBLE_FORKS: "16"
-
 jobs:
   lint:
     name: Lint
