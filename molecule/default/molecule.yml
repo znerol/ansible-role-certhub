@@ -138,6 +138,9 @@ platforms:
 
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      remote_tmp: /tmp
   inventory:
     host_vars:
       debian-node:
