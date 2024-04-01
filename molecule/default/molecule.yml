@@ -5,47 +5,9 @@ dependency:
 driver:
   name: podman
 
-scenario:
-  create_sequence:
-    - dependency
-    - create
-    - prepare
-  check_sequence:
-    - dependency
-    #- cleanup
-    #- destroy
-    - create
-    - prepare
-    - converge
-    - check
-    - destroy
-  converge_sequence:
-    - dependency
-    - create
-    - prepare
-    - converge
-  destroy_sequence:
-    - dependency
-    - cleanup
-    - destroy
-  test_sequence:
-    - dependency
-    #- cleanup
-    #- destroy
-    - syntax
-    - create
-    - prepare
-    - converge
-    - idempotence
-    - side_effect
-    - verify
-    - cleanup
-    - destroy
-
 platforms:
   - name: debian-node
     image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
-    rootless: false
     pre_build_image: true
     override_command: no
     tty: yes
@@ -58,7 +20,6 @@ platforms:
 
   - name: ubuntu-node
     image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
-    rootless: false
     pre_build_image: true
     override_command: no
     tty: yes
@@ -71,7 +32,6 @@ platforms:
 
   - name: centos-node
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
-    rootless: false
     pre_build_image: true
     override_command: no
     tty: yes
@@ -84,7 +44,6 @@ platforms:
 
   - name: debian-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
-    rootless: false
     pre_build_image: true
     override_command: no
     tty: yes
@@ -95,7 +54,6 @@ platforms:
 
   - name: ubuntu-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
-    rootless: false
     pre_build_image: true
     override_command: no
     tty: yes
@@ -106,7 +64,6 @@ platforms:
 
   - name: centos-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
-    rootless: false
     pre_build_image: true
     override_command: no
     tty: yes
@@ -117,14 +74,12 @@ platforms:
 
   - name: challtestsrv
     image: docker.io/letsencrypt/pebble-challtestsrv
-    rootless: false
     pre_build_image: true
     command: /usr/bin/pebble-challtestsrv
     network: molecule-certhub
 
   - name: pebble
     image: docker.io/letsencrypt/pebble:v1.0.1
-    rootless: false
     pre_build_image: true
     command: >
         /bin/sh -c
