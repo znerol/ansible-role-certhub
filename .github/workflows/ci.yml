@@ -71,7 +71,7 @@ jobs:
       - name: Run molecule
         run: |
           sudo podman info
-          sudo molecule test
+          export MOLECULE="$(command -v molecule)" && sudo ${MOLECULE} test
 
   galaxy:
     name: Ansible Galaxy Import
