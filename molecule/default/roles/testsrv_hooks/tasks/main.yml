@@ -11,7 +11,6 @@
         - certbot-hooks
         - lego-hooks
       file:
-        path: "files/{{ item }}"
         state: directory
         dest: "/usr/local/lib/certhub/{{ item }}"
         owner: root
