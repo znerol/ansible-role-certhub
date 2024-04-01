@@ -1,6 +1,9 @@
 ---
 
 certhub_certhub_releases:
+  v1.1.0:
+    checksum: sha256:9ef4e5e7afbbc10492d6358661993502be65987ffd4aa8c41d59e831d1c8d378
+    url: https://github.com/certhub/certhub/releases/download/v1.1.0/certhub-dist.tar.gz
   v1.0.0:
     checksum: sha256:83e444e1613a1a4e136a513a943f4d08c689d4881955527fe4a9770e6940c93a
     url: https://github.com/certhub/certhub/releases/download/v1.0.0/certhub-dist.tar.gz
