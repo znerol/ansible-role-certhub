@@ -63,16 +63,15 @@ jobs:
       - name: Install molecule docker
         run: pip install 'ansible==7.*' 'molecule==5.*' 'molecule-plugins[podman]' pytest-testinfra
 
-      - name: Upgrade podman
+      - name: Patch crun
         run: |
-          sudo apt-get --purge remove --yes buildah conmon crun podman slirp4netns && sudo apt-get --purge autoremove --yes && sudo rm -rf /etc/cni
-          curl -fsSL -o /tmp/podman-linux-amd64.tar.gz 'https://github.com/mgoltzsche/podman-static/releases/latest/download/podman-linux-amd64.tar.gz'
-          sudo tar --strip-components=1 -C / -xf /tmp/podman-linux-amd64.tar.gz podman-linux-amd64/etc podman-linux-amd64/usr
-          hash -r
-          podman --version
+          curl -fsSL -o crun https://github.com/containers/crun/releases/download/1.14.4/crun-1.14.4-linux-amd64
+          sudo install -m 0755 -o root -g root crun /usr/bin/crun
 
       - name: Run molecule
-        run: molecule test
+        run: |
+          sudo podman info
+          sudo molecule test
 
   galaxy:
     name: Ansible Galaxy Import
