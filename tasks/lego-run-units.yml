@@ -3,7 +3,6 @@
   become: yes
   become_user: root
   loop:
-    - "{{ certhub_cert_expiry_path_unit }}"
     - "{{ certhub_cert_expiry_timer_unit }}"
     - "{{ certhub_lego_run_path_unit }}"
   systemd:
