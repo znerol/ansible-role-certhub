@@ -69,10 +69,7 @@ jobs:
           sudo install -m 0755 -o root -g root crun /usr/bin/crun
 
       - name: Run molecule
-        run: |
-          export MOLECULE_PODMAN_EXECUTABLE="$(pwd)/.github/scripts/podman-sudo.sh"
-          "${MOLECULE_PODMAN_EXECUTABLE}" info
-          molecule test
+        run: molecule test
 
   galaxy:
     name: Ansible Galaxy Import
