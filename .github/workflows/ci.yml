@@ -70,8 +70,9 @@ jobs:
 
       - name: Run molecule
         run: |
-          sudo podman info
-          export MOLECULE="$(command -v molecule)" && sudo ${MOLECULE} test
+          export MOLECULE_PODMAN_EXECUTABLE="$(pwd)/.github/scripts/podman-sudo.sh"
+          "${MOLECULE_PODMAN_EXECUTABLE}" info
+          molecule test
 
   galaxy:
     name: Ansible Galaxy Import
