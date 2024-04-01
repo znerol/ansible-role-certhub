@@ -69,7 +69,10 @@ jobs:
           sudo install -m 0755 -o root -g root crun /usr/bin/crun
 
       - name: Run molecule
-        run: molecule test
+        run: |
+          sudo podman network create molecule-certhub
+          molecule test
+          sudo podman network rm molecule-certhub
 
   galaxy:
     name: Ansible Galaxy Import
