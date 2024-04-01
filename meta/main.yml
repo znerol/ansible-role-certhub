@@ -29,18 +29,19 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - "stretch"
         - "buster"
         - "bullseye"
+        - "bookworm"
     - name: EL
       versions:
         - "7"
         - "8"
+        - "9"
     - name: Ubuntu
       versions:
-        - "xenial"
         - "bionic"
         - "focal"
+        - "jammy"
 
   galaxy_tags: []
   # List tags for your role here, one per line. A tag is a keyword that describes

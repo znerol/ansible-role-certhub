@@ -78,10 +78,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Ansible Galaxy Token
-        env:
-          ANSIBLE_GALAXY_TOKEN: "${{ secrets.ANSIBLE_GALAXY_TOKEN }}"
-        run: .github/scripts/setup-galaxy-token.sh
-
       - name: Trigger Ansible Galaxy Import
-        run: ansible-galaxy role import --role-name znerol.certhub znerol ansible-role-certhub
+        env:
+          ANSIBLE_GALAXY_SERVER_RELEASE_GALAXY_TOKEN: ${{ secrets.ANSIBLE_GALAXY_TOKEN }}
+        run: ansible-galaxy role import znerol ansible-role-certhub
