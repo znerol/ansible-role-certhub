@@ -17,6 +17,8 @@ platforms:
       - '--network-alias=debian-node-lego-test.ci.certhub.io'
     groups:
       - server
+    volumes:
+      - ansible-tmp.debian-node:/var/cache/ansible-tmp
 
   - name: ubuntu-node
     image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
@@ -29,6 +31,8 @@ platforms:
       - '--network-alias=ubuntu-node-lego-test.ci.certhub.io'
     groups:
       - server
+    volumes:
+      - ansible-tmp.ubuntu-node:/var/cache/ansible-tmp
 
   - name: centos-node
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
@@ -41,6 +45,8 @@ platforms:
       - '--network-alias=centos-node-lego-test.ci.certhub.io'
     groups:
       - server
+    volumes:
+      - ansible-tmp.centos-node:/var/cache/ansible-tmp
 
   - name: debian-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
@@ -51,6 +57,8 @@ platforms:
     network: molecule-certhub
     groups:
       - controller
+    volumes:
+      - ansible-tmp.debian-controller:/var/cache/ansible-tmp
 
   - name: ubuntu-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
@@ -61,6 +69,8 @@ platforms:
     network: molecule-certhub
     groups:
       - controller
+    volumes:
+      - ansible-tmp.ubuntu-controller:/var/cache/ansible-tmp
 
   - name: centos-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
@@ -71,12 +81,16 @@ platforms:
     network: molecule-certhub
     groups:
       - controller
+    volumes:
+      - ansible-tmp.centos-controller:/var/cache/ansible-tmp
 
   - name: challtestsrv
     image: docker.io/letsencrypt/pebble-challtestsrv
     pre_build_image: true
     command: /usr/bin/pebble-challtestsrv
     network: molecule-certhub
+    volumes:
+      - ansible-tmp.challtestsrv:/var/cache/ansible-tmp
 
   - name: pebble
     image: docker.io/letsencrypt/pebble:v1.0.1
@@ -90,12 +104,14 @@ platforms:
         -dnsserver $${NSENTRY%% *}:8053
         "
     network: molecule-certhub
+    volumes:
+      - ansible-tmp.pebble:/var/cache/ansible-tmp
 
 provisioner:
   name: ansible
   config_options:
     defaults:
-      remote_tmp: /tmp
+      remote_tmp: /var/cache/ansible-tmp
   inventory:
     host_vars:
       debian-node:
