@@ -15,7 +15,7 @@ platforms:
     systemd: always
     network: molecule-certhub
     extra_opts:
-      - '--network-alias=debian-node-lego-test.ci.certhub.io'
+      - --network-alias=debian-node-lego-test.ci.certhub.io
     groups:
       - server
 
@@ -28,13 +28,13 @@ platforms:
     systemd: always
     network: molecule-certhub
     extra_opts:
-      - '--network-alias=ubuntu-node-lego-test.ci.certhub.io'
+      - --network-alias=ubuntu-node-lego-test.ci.certhub.io
     groups:
       - server
     # Workaround for syscall fchmodat2 missing from default seccomp profile
     # https://github.com/containers/podman/issues/21012
     security_opts:
-      - "seccomp=unconfined"
+      - seccomp=unconfined
 
   - name: centos-node
     hostname: centos-node
@@ -45,7 +45,7 @@ platforms:
     systemd: always
     network: molecule-certhub
     extra_opts:
-      - '--network-alias=centos-node-lego-test.ci.certhub.io'
+      - --network-alias=centos-node-lego-test.ci.certhub.io
     groups:
       - server
 
@@ -73,8 +73,7 @@ platforms:
     # Workaround for syscall fchmodat2 missing from default seccomp profile
     # https://github.com/containers/podman/issues/21012
     security_opts:
-      - "seccomp=unconfined"
-
+      - seccomp=unconfined
 
   - name: centos-controller
     hostname: centos-controller
@@ -99,8 +98,8 @@ platforms:
     image: docker.io/letsencrypt/pebble:v1.0.1
     pre_build_image: true
     command:
-      - "/bin/sh"
-      - "-c"
+      - /bin/sh
+      - -c
       - >
         NSENTRY=$$(getent hosts challtestsrv) &&
         exec /usr/bin/pebble

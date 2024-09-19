@@ -1,16 +1,16 @@
 ---
 - name: SSH Server setup
-  become: yes
+  become: true
   become_user: root
   block:
     - name: SSH Server present
       loop:
         - openssh-server
-      package:
+      ansible.builtin.package:
         name: "{{ item }}"
         state: present
 
     - name: SSH Server started
-      service:
+      ansible.builtin.service:
         name: "{{ 'sshd' if ansible_pkg_mgr == 'dnf' else 'ssh' }}"
         state: started

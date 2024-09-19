@@ -67,29 +67,29 @@ certhub_user_name: certhub
 certhub_user_shell: /usr/bin/git-shell
 
 certhub_home_dir_path: /var/lib/certhub
-certhub_home_dir_mode: 0755
+certhub_home_dir_mode: "0755"
 
 certhub_config_dir_path: /etc/certhub
 certhub_config_dir_owner: root
 certhub_config_dir_group: root
-certhub_config_dir_mode: 0755
+certhub_config_dir_mode: "0755"
 
 certhub_status_dir_path: "{{ certhub_home_dir_path }}/status"
 certhub_status_dir_owner: "{{ certhub_user_name }}"
 certhub_status_dir_group: "{{ certhub_user_group }}"
-certhub_status_dir_mode: 0755
+certhub_status_dir_mode: "0755"
 
 certhub_certs_dir_path: "{{ certhub_home_dir_path }}/certs"
 certhub_certs_dir_owner: "{{ certhub_user_name }}"
 certhub_certs_dir_group: "{{ certhub_user_group }}"
-certhub_certs_dir_mode: 0755
+certhub_certs_dir_mode: "0755"
 
 certhub_private_dir_path: "{{ certhub_home_dir_path }}/private"
 certhub_private_dir_owner: "{{ certhub_user_name }}"
 certhub_private_dir_group: "{{ certhub_user_group }}"
-certhub_private_dir_mode: 0700
+certhub_private_dir_mode: "0700"
 
-certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
+certhub_repo_path: "{{ certhub_home_dir_path }}/certs.git"
 ```
 
 ### Variables for certhub-software-setup.yml
@@ -97,16 +97,20 @@ certhub_repo_path: "{{ certhub_home_dir_path}}/certs.git"
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 ```
-certhub_certhub_version: v1.0.0
+certhub_certhub_version: v1.2.0
 certhub_certhub_checksum: "{{ certhub_certhub_releases[certhub_certhub_version]['checksum'] }}"
 certhub_certhub_url: "{{ certhub_certhub_releases[certhub_certhub_version]['url'] }}"
 certhub_certhub_prefix: /usr/local
+certhub_certhub_owner: root
+certhub_certhub_group: root
 certhub_certhub_archive_path: "{{ certhub_private_dir_path }}/certhub-dist-{{ certhub_certhub_version }}.tar.gz"
 
 certhub_gitgau_version: v1.3.0
 certhub_gitgau_checksum: "{{ certhub_gitgau_releases[certhub_gitgau_version]['checksum'] }}"
 certhub_gitgau_url: "{{ certhub_gitgau_releases[certhub_gitgau_version]['url'] }}"
 certhub_gitgau_prefix: /usr/local
+certhub_gitgau_owner: root
+certhub_gitgau_group: root
 certhub_gitgau_archive_path: "{{ certhub_private_dir_path }}/git-gau-dist-{{ certhub_gitgau_version }}.tar.gz"
 ```
 
@@ -159,15 +163,15 @@ Available variables are listed below, along with default values (see `defaults/m
 # Optional environment file shared by all instances and certhub services.
 certhub_env_path: "{{ certhub_config_dir_path }}/env"
 # Optional per-instance environment file shared by all certhub services.
-certhub_cert_env_path: "{{ certhub_config_dir_path}}/{{ certhub_cert_slug }}.env"
+certhub_cert_env_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.env"
 # Optional per-service environment file shared by all certhub service instances.
-certhub_unit_env_path: "{{ certhub_config_dir_path}}/{{ certhub_unit_prefix }}.env"
+certhub_unit_env_path: "{{ certhub_config_dir_path }}/{{ certhub_unit_prefix }}.env"
 # Optional per-instance and per-service environment file.
-certhub_cert_unit_env_path: "{{ certhub_config_dir_path}}/{{ certhub_cert_slug }}.{{ certhub_unit_prefix }}.env"
+certhub_cert_unit_env_path: "{{ certhub_config_dir_path }}/{{ certhub_cert_slug }}.{{ certhub_unit_prefix }}.env"
 
 certhub_env_owner: root
 certhub_env_group: "{{ certhub_user_group }}"
-certhub_env_mode: 0640
+certhub_env_mode: "0640"
 ```
 
 Use this variables in custom `copy` or `template` tasks in order to populate
@@ -318,7 +322,7 @@ Example Playbook
             dest: "{{ certhub_cert_csr_path }}"
             owner: root
             group: root
-            mode: 0644
+            mode: "0644"
             content: |
               -----BEGIN CERTIFICATE REQUEST-----
               MIH6MIGhAgEAMBYxFDASBgNVBAMMC2V4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYI
@@ -337,7 +341,7 @@ Example Playbook
             dest: "{{ certhub_certbot_config_path }}"
             owner: root
             group: root
-            mode: 0644
+            mode: "0644"
             content: |
               staging=true
               agree-tos=true

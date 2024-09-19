@@ -1,8 +1,9 @@
 ---
-- import_tasks: certhub-system-setup.yml
-
-- import_tasks: certhub-software-setup.yml
-
-- import_tasks: certhub-git-setup.yml
-
-- import_tasks: certhub-repo-setup.yml
+- name: Certhub System Setup
+  ansible.builtin.import_tasks: certhub-system-setup.yml
+- name: Certhub Software Setup
+  ansible.builtin.import_tasks: certhub-software-setup.yml
+- name: Certhub Git Setup
+  ansible.builtin.import_tasks: certhub-git-setup.yml
+- name: Certhup Repo Setup
+  ansible.builtin.import_tasks: certhub-repo-setup.yml

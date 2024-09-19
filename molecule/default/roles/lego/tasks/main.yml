@@ -1,28 +1,31 @@
 ---
 - name: Lego downloaded
-  become: yes
+  become: true
   become_user: certhub
-  get_url:
+  ansible.builtin.get_url:
     dest: /var/lib/certhub/private/lego_v4.16.1_linux_amd64.tar.gz
     url: https://github.com/go-acme/lego/releases/download/v4.16.1/lego_v4.16.1_linux_amd64.tar.gz
     checksum: sha256:e9826f955337c1fd825d21b073168692711985e25db013ff6b00e9a55a9644b4
+    owner: certhub
+    group: certhub
+    mode: "0644"
 
 - name: Lego unarchived
-  become: yes
+  become: true
   become_user: root
-  unarchive:
+  ansible.builtin.unarchive:
     src: /var/lib/certhub/private/lego_v4.16.1_linux_amd64.tar.gz
     dest: /usr/local/bin/
     creates: /usr/local/bin/lego
-    remote_src: yes
-    extra_opts: [ "lego" ]
+    remote_src: true
+    extra_opts: [lego]
 
 - name: Lego present
-  become: yes
+  become: true
   become_user: root
-  file:
+  ansible.builtin.file:
     path: /usr/local/bin/lego
     state: file
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"

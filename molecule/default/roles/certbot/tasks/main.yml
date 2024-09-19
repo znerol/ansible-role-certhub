@@ -1,16 +1,16 @@
 ---
 - name: ACME clients setup
-  become: yes
+  become: true
   become_user: root
   block:
     - name: EPEL repo present
       when: ansible_pkg_mgr == 'dnf'
-      package:
+      ansible.builtin.package:
         name: epel-release
         state: present
 
     - name: Certbot present
-      package:
+      ansible.builtin.package:
         name:
           - certbot
         state: present

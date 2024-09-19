@@ -3,23 +3,23 @@
   become: true
   become_user: root
   vars:
-    tls_cnf_path: "/etc/certhub/{{ tls_cert_slug }}.cnf"
-    tls_csr_cn: "{{ tls_cert_slug }}"
-    tls_csr_path: "/etc/certhub/{{ tls_cert_slug }}.csr.pem"
-    tls_nginx_conf_path: "/etc/certhub/{{ tls_cert_slug }}.nginx.conf"
-    tls_key_path: "/etc/certhub/{{ tls_cert_slug }}.key.pem"
-    tls_cert_path: "/var/lib/certhub/certs/{{ tls_cert_slug }}.fullchain.pem"
+    tls_cnf_path: /etc/certhub/{{ tlsserver_cert_slug }}.cnf
+    tls_csr_cn: "{{ tlsserver_cert_slug }}"
+    tls_csr_path: /etc/certhub/{{ tlsserver_cert_slug }}.csr.pem
+    tls_nginx_conf_path: /etc/certhub/{{ tlsserver_cert_slug }}.nginx.conf
+    tls_key_path: /etc/certhub/{{ tlsserver_cert_slug }}.key.pem
+    tls_cert_path: /var/lib/certhub/certs/{{ tlsserver_cert_slug }}.fullchain.pem
   block:
     - name: OpenSSL config present
-      template:
+      ansible.builtin.template:
         src: req.cnf.j2
         dest: "{{ tls_cnf_path }}"
         owner: root
         group: root
-        mode: 0600
+        mode: "0600"
 
     - name: TLS Key present
-      command: >
+      ansible.builtin.command: >
         openssl genpkey
         -out "{{ tls_key_path }}"
         -algorithm RSA
@@ -31,34 +31,33 @@
       register: cert_csr
       changed_when: false
       check_mode: false
-      command: >
+      ansible.builtin.command: >
         openssl req -new -batch
         -config "{{ tls_cnf_path }}"
         -key "{{ tls_key_path }}"
-
     - name: TLS Cert request stored on controller
       loop: "{{ query('inventory_hostnames', 'controller') }}"
       delegate_to: "{{ item }}"
-      copy:
+      ansible.builtin.copy:
         dest: "{{ tls_csr_path }}"
         content: "{{ cert_csr.stdout }}"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
 
     - name: EPEL repo present
       when: ansible_pkg_mgr == 'dnf'
-      package:
+      ansible.builtin.package:
         name: epel-release
         state: present
 
     - name: NGINX installed
-      package:
+      ansible.builtin.package:
         name: nginx
         state: present
 
     - name: NGINX started with default config
-      service:
+      ansible.builtin.service:
         name: nginx
         enabled: true
         state: started
@@ -67,9 +66,9 @@
       vars:
         nginx_user: "{{ 'nginx' if ansible_pkg_mgr == 'dnf' else 'www-data' }}"
         nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_pkg_mgr == 'dnf' else '/var/www/html' }}"
-      template:
+      ansible.builtin.template:
         src: nginx.conf.j2
         dest: "{{ tls_nginx_conf_path }}"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
