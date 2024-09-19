@@ -29,6 +29,10 @@ platforms:
       - '--network-alias=ubuntu-node-lego-test.ci.certhub.io'
     groups:
       - server
+    # Workaround for syscall fchmodat2 missing from default seccomp profile
+    # https://github.com/containers/podman/issues/21012
+    security_opts:
+      - "seccomp=unconfined"
 
   - name: centos-node
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
@@ -61,6 +65,11 @@ platforms:
     network: molecule-certhub
     groups:
       - controller
+    # Workaround for syscall fchmodat2 missing from default seccomp profile
+    # https://github.com/containers/podman/issues/21012
+    security_opts:
+      - "seccomp=unconfined"
+
 
   - name: centos-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
