@@ -54,15 +54,10 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Install molecule docker
-        run: pip install 'ansible==7.*' 'molecule==5.*' 'molecule-plugins[podman]' pytest-testinfra
-
-      - name: Patch crun
-        run: |
-          curl -fsSL -o crun https://github.com/containers/crun/releases/download/1.14.4/crun-1.14.4-linux-amd64
-          sudo install -m 0755 -o root -g root crun /usr/bin/crun
+        run: pip install ansible molecule 'molecule-plugins[podman]' pytest-testinfra
 
       - name: Run molecule
         run: molecule test
