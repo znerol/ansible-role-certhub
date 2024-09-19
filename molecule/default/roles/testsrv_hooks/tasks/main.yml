@@ -3,6 +3,7 @@
   become_user: root
   block:
     - name: Curl installed
+      when: ansible_distribution != 'CentOS'
       package:
         name: curl
 
