@@ -98,14 +98,14 @@ platforms:
     hostname: pebble
     image: docker.io/letsencrypt/pebble:v1.0.1
     pre_build_image: true
-    command: >
-        /bin/sh -c
-        "
+    command:
+      - "/bin/sh"
+      - "-c"
+      - >
         NSENTRY=$$(getent hosts challtestsrv) &&
         exec /usr/bin/pebble
         -config /test/config/pebble-config.json
         -dnsserver $${NSENTRY%% *}:8053
-        "
     network: molecule-certhub
 
 provisioner:
