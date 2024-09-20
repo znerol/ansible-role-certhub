@@ -12,5 +12,5 @@
 
     - name: SSH Server started
       service:
-        name: sshd
+        name: "{{ 'sshd' if ansible_pkg_mgr == 'dnf' else 'ssh' }}"
         state: started

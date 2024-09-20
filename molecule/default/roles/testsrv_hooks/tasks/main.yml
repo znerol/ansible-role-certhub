@@ -3,9 +3,8 @@
   become_user: root
   block:
     - name: Curl installed
-      when: ansible_distribution != 'CentOS'
       package:
-        name: curl
+        name: "{{ 'curl-minimal' if ansible_pkg_mgr == 'dnf' else 'curl' }}"
 
     - name: Certhub challenge test server directories present
       loop:
