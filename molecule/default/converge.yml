@@ -8,6 +8,7 @@
       when: ansible_pkg_mgr == 'apt'
       apt:
         update_cache: yes
+        cache_valid_time: 3600
 
 - name: General Setup
   hosts: controller:server
@@ -17,6 +18,7 @@
       become_user: root
       package:
         name:
+          - acl
           - git
           - openssl
           - rsync

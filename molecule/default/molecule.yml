@@ -7,6 +7,7 @@ driver:
 
 platforms:
   - name: debian-node
+    hostname: debian-node
     image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
     pre_build_image: true
     override_command: no
@@ -19,6 +20,7 @@ platforms:
       - server
 
   - name: ubuntu-node
+    hostname: ubuntu-node
     image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
     pre_build_image: true
     override_command: no
@@ -29,8 +31,13 @@ platforms:
       - '--network-alias=ubuntu-node-lego-test.ci.certhub.io'
     groups:
       - server
+    # Workaround for syscall fchmodat2 missing from default seccomp profile
+    # https://github.com/containers/podman/issues/21012
+    security_opts:
+      - "seccomp=unconfined"
 
   - name: centos-node
+    hostname: centos-node
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
     pre_build_image: true
     override_command: no
@@ -43,6 +50,7 @@ platforms:
       - server
 
   - name: debian-controller
+    hostname: debian-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:debian-systemd
     pre_build_image: true
     override_command: no
@@ -53,6 +61,7 @@ platforms:
       - controller
 
   - name: ubuntu-controller
+    hostname: ubuntu-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:ubuntu-systemd
     pre_build_image: true
     override_command: no
@@ -61,8 +70,14 @@ platforms:
     network: molecule-certhub
     groups:
       - controller
+    # Workaround for syscall fchmodat2 missing from default seccomp profile
+    # https://github.com/containers/podman/issues/21012
+    security_opts:
+      - "seccomp=unconfined"
+
 
   - name: centos-controller
+    hostname: centos-controller
     image: docker.io/znerolmolecule/molecule-prebuilt:centos-systemd
     pre_build_image: true
     override_command: no
@@ -73,22 +88,24 @@ platforms:
       - controller
 
   - name: challtestsrv
+    hostname: challtestsrv
     image: docker.io/letsencrypt/pebble-challtestsrv
     pre_build_image: true
     command: /usr/bin/pebble-challtestsrv
     network: molecule-certhub
 
   - name: pebble
+    hostname: pebble
     image: docker.io/letsencrypt/pebble:v1.0.1
     pre_build_image: true
-    command: >
-        /bin/sh -c
-        "
+    command:
+      - "/bin/sh"
+      - "-c"
+      - >
         NSENTRY=$$(getent hosts challtestsrv) &&
         exec /usr/bin/pebble
         -config /test/config/pebble-config.json
         -dnsserver $${NSENTRY%% *}:8053
-        "
     network: molecule-certhub
 
 provisioner:

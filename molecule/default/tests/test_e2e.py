@@ -85,7 +85,7 @@ def test_certbot_issues_cert(host, link_nginx_config):
     controller_units = [
         'certhub-cert-expiry@{:s}'.format(cert_slug),
         'certhub-certbot-run@{:s}'.format(cert_slug),
-        'certhub-repo-push',
+        'certhub-repo-push@*',
     ]
     for pattern in controller_units:
         controller.run_expect([1], "systemctl --quiet is-failed %s", pattern)
@@ -134,7 +134,7 @@ def test_lego_issues_cert(host, link_nginx_config):
     controller_units = [
         'certhub-cert-expiry@{:s}'.format(cert_slug),
         'certhub-lego-run@{:s}'.format(cert_slug),
-        'certhub-repo-push',
+        'certhub-repo-push@*',
     ]
     for pattern in controller_units:
         controller.run_expect([1], "systemctl --quiet is-failed %s", pattern)
