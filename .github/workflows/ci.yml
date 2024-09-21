@@ -26,7 +26,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
       - name: Install ansible ansible-lint yamllint flake8
         run: pip install ansible ansible-lint yamllint flake8
@@ -54,7 +54,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
       - name: Install molecule docker
         run: pip install ansible molecule 'molecule-plugins[podman]' pytest-testinfra
