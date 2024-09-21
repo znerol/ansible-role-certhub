@@ -18,6 +18,7 @@
       become_user: root
       package:
         name:
+          - acl
           - git
           - openssl
           - rsync
