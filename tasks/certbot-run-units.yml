@@ -1,11 +1,11 @@
 ---
 - name: Certbot run / Cert expiry path and timer units enabled and started
-  become: yes
+  become: true
   become_user: root
   loop:
     - "{{ certhub_cert_expiry_timer_unit }}"
     - "{{ certhub_certbot_run_path_unit }}"
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item }}"
     enabled: true
     state: started

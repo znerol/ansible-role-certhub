@@ -1,31 +1,31 @@
 ---
 - name: Certhub system setup
-  become: yes
+  become: true
   become_user: root
   block:
     - name: Certhub group present
-      group:
+      ansible.builtin.group:
         name: "{{ certhub_user_group }}"
         state: present
-        system: yes
+        system: true
 
     - name: Certhub user present
-      user:
+      ansible.builtin.user:
         name: "{{ certhub_user_name }}"
         group: "{{ certhub_user_group }}"
         state: present
-        system: yes
+        system: true
         home: "{{ certhub_home_dir_path }}"
         shell: /usr/bin/git-shell
 
     - name: Certhub home permissions
-      file:
+      ansible.builtin.file:
         path: "{{ certhub_home_dir_path }}"
         state: directory
         mode: "{{ certhub_home_dir_mode }}"
 
     - name: Certhub config directory present
-      file:
+      ansible.builtin.file:
         path: "{{ certhub_config_dir_path }}"
         state: directory
         owner: "{{ certhub_config_dir_owner }}"
@@ -33,7 +33,7 @@
         mode: "{{ certhub_config_dir_mode }}"
 
     - name: Certhub status directory present
-      file:
+      ansible.builtin.file:
         path: "{{ certhub_status_dir_path }}"
         state: directory
         owner: "{{ certhub_status_dir_owner }}"
@@ -41,7 +41,7 @@
         mode: "{{ certhub_status_dir_mode }}"
 
     - name: Certhub local certs directory present
-      file:
+      ansible.builtin.file:
         path: "{{ certhub_certs_dir_path }}"
         state: directory
         owner: "{{ certhub_certs_dir_owner }}"
@@ -49,7 +49,7 @@
         mode: "{{ certhub_certs_dir_mode }}"
 
     - name: Certhub local private directory present
-      file:
+      ansible.builtin.file:
         path: "{{ certhub_private_dir_path }}"
         state: directory
         owner: "{{ certhub_private_dir_owner }}"

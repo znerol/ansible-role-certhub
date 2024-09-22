@@ -1,18 +1,19 @@
 ---
 - name: Certhub repo setup
-  become: yes
+  become: true
   become_user: "{{ certhub_user_name }}"
   block:
-    - name: Certhub local repository present
+    - name: Certhub local repository present # noqa: command-instead-of-module
       when: certhub_repo_init_path | length > 0
       register: certhub_repo_init
       args:
         creates: "{{ certhub_repo_init_path }}"
-      command: >
+      ansible.builtin.command: >
         git init --bare "{{ certhub_repo_init_path | quote }}"
 
-    - name: Certhub local repository initialized
+    - name: Certhub local repository initialized # noqa: command-instead-of-module no-handler
       when: certhub_repo_init is changed
-      command: >
+      changed_when: true
+      ansible.builtin.command: >
         git gau-exec "{{ certhub_repo_init_path | quote }}"
         git commit --allow-empty --message="{{ certhub_repo_init_message | quote }}"

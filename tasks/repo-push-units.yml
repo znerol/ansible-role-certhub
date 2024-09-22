@@ -1,10 +1,10 @@
 ---
 - name: Repo push units configured
-  become: yes
+  become: true
   become_user: root
   block:
     - name: Repo push path unit enabled and started
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ certhub_repo_push_path_unit }}"
-        enabled: yes
+        enabled: true
         state: started

@@ -1,54 +1,54 @@
 ---
 - name: Certificate export, send and reload units configured
-  become: yes
+  become: true
   become_user: root
   block:
     - name: Certificate export path unit enabled and started
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ certhub_cert_export_path_unit }}"
-        enabled: yes
+        enabled: true
         state: started
 
     - name: Certificate services reload present
-      copy:
+      ansible.builtin.copy:
         content: "{{ certhub_cert_services | join('\n') }}"
         dest: "{{ certhub_cert_reload_config_path }}"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
 
     - name: Certificate service reload path units enabled and started
       when: certhub_cert_services | length > 0
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ certhub_cert_reload_path_unit }}"
-        enabled: yes
+        enabled: true
         state: started
 
     - name: Certificate service reload path unit stopped and disabled
       when: certhub_cert_services | length == 0
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ certhub_cert_reload_path_unit }}"
-        enabled: no
+        enabled: false
         state: stopped
 
     - name: Certificate send destinations present
-      copy:
+      ansible.builtin.copy:
         content: "{{ certhub_cert_destinations | join('\n') }}"
         dest: "{{ certhub_cert_send_config_path }}"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
 
     - name: Certificate send path units enabled and started
       when: certhub_cert_destinations | length > 0
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ certhub_cert_send_path_unit }}"
-        enabled: yes
+        enabled: true
         state: started
 
     - name: Certificate send path unit stopped and disabled
       when: certhub_cert_destinations | length == 0
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ certhub_cert_send_path_unit }}"
-        enabled: no
+        enabled: false
         state: stopped

@@ -1,32 +1,42 @@
 ---
 - name: Certhub software download
-  become: yes
+  become: true
   become_user: "{{ certhub_user_name }}"
   block:
     - name: Git GAU downloaded
-      get_url:
+      ansible.builtin.get_url:
         dest: "{{ certhub_gitgau_archive_path }}"
         url: "{{ certhub_gitgau_url }}"
         checksum: "{{ certhub_gitgau_checksum }}"
+        owner: "{{ certhub_user_name }}"
+        group: "{{ certhub_user_group }}"
+        mode: "0644"
 
     - name: Certhub downloaded
-      get_url:
+      ansible.builtin.get_url:
         dest: "{{ certhub_certhub_archive_path }}"
         url: "{{ certhub_certhub_url }}"
         checksum: "{{ certhub_certhub_checksum }}"
+        owner: "{{ certhub_user_name }}"
+        group: "{{ certhub_user_group }}"
+        mode: "0644"
 
 - name: Certhub software setup
-  become: yes
+  become: true
   become_user: root
   block:
     - name: Git GAU present
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ certhub_gitgau_archive_path }}"
         dest: "{{ certhub_gitgau_prefix }}"
-        remote_src: yes
+        remote_src: true
+        owner: "{{ certhub_gitgau_owner }}"
+        group: "{{ certhub_gitgau_group }}"
 
     - name: Certhub present
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ certhub_certhub_archive_path }}"
         dest: "{{ certhub_certhub_prefix }}"
-        remote_src: yes
+        remote_src: true
+        owner: "{{ certhub_certhub_owner }}"
+        group: "{{ certhub_certhub_group }}"
