@@ -7,11 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2024-09-23
+
+### Added
+
+- feat(role): Update to certhub v1.3.0 (#35)
+
+### Changed
+
+- fix(ci): Remove deprecated certbot option (#36)
+
 ## [1.3.0] - 2024-09-22
+
+### Added
 
 - feat(role): Update to git-gau v1.4.0 (#31)
 
-## Changed
+### Changed
 
 - chore(ci): Update ansible-lint (#33)
 - chore(ci): Use latest ansible and molecule (#32)
@@ -49,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release
 
-[Unreleased]: https://github.com/znerol/ansible-role-certhub/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/znerol/ansible-role-certhub/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/znerol/ansible-role-certhub/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/znerol/ansible-role-certhub/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/znerol/ansible-role-certhub/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/znerol/ansible-role-certhub/compare/v1.0.0...v1.1.0
