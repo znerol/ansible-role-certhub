@@ -346,7 +346,6 @@ Example Playbook
               staging=true
               agree-tos=true
               register-unsafely-without-email=true
-              manual-public-ip-logging-ok=true
               preferred-challenges=dns
               manual=true
               manual-auth-hook=/usr/local/lib/certhub/certbot-hooks/hook-lexicon-auth
