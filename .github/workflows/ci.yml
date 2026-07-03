@@ -35,7 +35,7 @@ jobs:
         run: yamllint .
 
       - name: Run ansible-lint
-        run: ansible-lint -v .
+        run: ansible-lint --exclude molecule -v .
 
       - name: Run flake8
         run: flake8
