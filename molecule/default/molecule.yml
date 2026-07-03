@@ -88,14 +88,14 @@ platforms:
 
   - name: challtestsrv
     hostname: challtestsrv
-    image: docker.io/letsencrypt/pebble-challtestsrv
+    image: ghcr.io/letsencrypt/pebble-challtestsrv:1
     pre_build_image: true
     command: /usr/bin/pebble-challtestsrv
     network: molecule-certhub
 
   - name: pebble
     hostname: pebble
-    image: docker.io/letsencrypt/pebble:v1.0.1
+    image: ghcr.io/letsencrypt/pebble:1
     pre_build_image: true
     command:
       - /bin/sh
