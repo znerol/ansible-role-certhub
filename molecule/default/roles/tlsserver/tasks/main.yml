@@ -46,7 +46,7 @@
         mode: "0644"
 
     - name: EPEL repo present
-      when: ansible_pkg_mgr == 'dnf'
+      when: ansible_facts.pkg_mgr == 'dnf'
       ansible.builtin.package:
         name: epel-release
         state: present
@@ -64,8 +64,8 @@
 
     - name: NGINX config present
       vars:
-        nginx_user: "{{ 'nginx' if ansible_pkg_mgr == 'dnf' else 'www-data' }}"
-        nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_pkg_mgr == 'dnf' else '/var/www/html' }}"
+        nginx_user: "{{ 'nginx' if ansible_facts.pkg_mgr == 'dnf' else 'www-data' }}"
+        nginx_document_root: "{{ '/usr/share/nginx/html' if ansible_facts.pkg_mgr == 'dnf' else '/var/www/html' }}"
       ansible.builtin.template:
         src: nginx.conf.j2
         dest: "{{ tls_nginx_conf_path }}"

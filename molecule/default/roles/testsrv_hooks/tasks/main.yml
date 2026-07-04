@@ -5,7 +5,7 @@
   block:
     - name: Curl installed
       ansible.builtin.package:
-        name: "{{ 'curl-minimal' if ansible_pkg_mgr == 'dnf' else 'curl' }}"
+        name: "{{ 'curl-minimal' if ansible_facts.pkg_mgr == 'dnf' else 'curl' }}"
 
     - name: Certhub challenge test server directories present
       loop:

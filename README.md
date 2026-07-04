@@ -124,7 +124,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```
 certhub_git_user_name: "{{ certhub_user_name }}"
-certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
+certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_facts.fqdn }}"
 ```
 
 ### Variables for certhub-repo-setup.yml

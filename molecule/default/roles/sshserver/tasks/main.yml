@@ -12,5 +12,5 @@
 
     - name: SSH Server started
       ansible.builtin.service:
-        name: "{{ 'sshd' if ansible_pkg_mgr == 'dnf' else 'ssh' }}"
+        name: "{{ 'sshd' if ansible_facts.pkg_mgr == 'dnf' else 'ssh' }}"
         state: started

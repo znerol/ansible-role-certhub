@@ -4,14 +4,14 @@
   become_user: root
   block:
     - name: CA Locations and Commands on Debian/Ubuntu detected
-      when: ansible_pkg_mgr == 'apt'
+      when: ansible_facts.pkg_mgr == 'apt'
       ansible.builtin.set_fact:
         crt_dest: /usr/local/share/ca-certificates/pebble-ca.crt
         crt_update_cmd: >
           update-ca-certificates
 
     - name: CA Locations and Commands on Centos detected
-      when: ansible_pkg_mgr == 'dnf'
+      when: ansible_facts.pkg_mgr == 'dnf'
       ansible.builtin.set_fact:
         crt_dest: /etc/pki/ca-trust/source/anchors/pebble-ca.crt
         crt_update_cmd: >
