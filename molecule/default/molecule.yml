@@ -88,23 +88,20 @@ platforms:
 
   - name: challtestsrv
     hostname: challtestsrv
-    image: docker.io/letsencrypt/pebble-challtestsrv
+    image: ghcr.io/letsencrypt/pebble-challtestsrv:1
     pre_build_image: true
-    command: /usr/bin/pebble-challtestsrv
+    override_command: no
     network: molecule-certhub
 
   - name: pebble
     hostname: pebble
-    image: docker.io/letsencrypt/pebble:v1.0.1
+    image: ghcr.io/letsencrypt/pebble:1
     pre_build_image: true
     command:
-      - /bin/sh
-      - -c
-      - >
-        NSENTRY=$$(getent hosts challtestsrv) &&
-        exec /usr/bin/pebble
-        -config /test/config/pebble-config.json
-        -dnsserver $${NSENTRY%% *}:8053
+      - -config
+      - /test/config/pebble-config.json
+      - -dnsserver
+      - challtestsrv:8053
     network: molecule-certhub
 
 provisioner:
