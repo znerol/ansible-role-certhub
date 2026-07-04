@@ -61,7 +61,7 @@ def test_certbot_issues_cert(host, link_nginx_config):
     controller.run_expect([0], "systemctl start %s", service_name)
 
     # Retrieve pebble root certificate to the controller.
-    ca_url = "https://pebble:14000/root"
+    ca_url = "https://pebble:15000/roots/0"
     ca_path = "/tmp/pebble-root.crt"
     _run_expect_retry(controller, 5, [0], "curl --fail --output %s %s",
                       ca_path, ca_url)
@@ -110,7 +110,7 @@ def test_lego_issues_cert(host, link_nginx_config):
     controller.run_expect([0], "systemctl start %s", service_name)
 
     # Retrieve pebble root certificate to the controller.
-    ca_url = "https://pebble:14000/root"
+    ca_url = "https://pebble:15000/roots/0"
     ca_path = "/tmp/pebble-root.crt"
     _run_expect_retry(controller, 5, [0], "curl --fail --output %s %s",
                       ca_path, ca_url)
