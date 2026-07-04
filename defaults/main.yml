@@ -55,7 +55,7 @@ certhub_repo_push_path_unit: "{{ lookup('pipe', 'systemd-escape --template=certh
 certhub_repo_push_service_unit: "{{ lookup('pipe', 'systemd-escape --template=certhub-repo-push@.service ' + certhub_repo_push_remote | quote) }}"
 
 certhub_git_user_name: "{{ certhub_user_name }}"
-certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_fqdn }}"
+certhub_git_user_email: "{{ certhub_user_name }}@{{ ansible_facts.fqdn }}"
 
 # cert-*.yml
 certhub_cert_slug: "{{ inventory_hostname }}"
